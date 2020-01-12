@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jan 12 17:53:24 CST 2020
+commons-pool2-2.6.1.pom>aliyun=
+commons-pool2-2.6.1.jar>aliyun=
+commons-pool2-2.6.1.jar>aliyunmaven=
+commons-pool2-2.6.1.pom>aliyunmaven=

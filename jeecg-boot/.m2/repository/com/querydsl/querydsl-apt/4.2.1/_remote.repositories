@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jan 12 21:17:45 CST 2020
+querydsl-apt-4.2.1.pom>aliyunmaven=
+querydsl-apt-4.2.1-jpa.jar>aliyun=
+querydsl-apt-4.2.1-jpa.jar>aliyunmaven=
+querydsl-apt-4.2.1.pom>aliyun=

@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jan 12 17:53:08 CST 2020
+activation-1.1.jar>aliyun=
+activation-1.1.pom>aliyunmaven=
+activation-1.1.jar>aliyunmaven=
+activation-1.1.pom>aliyun=

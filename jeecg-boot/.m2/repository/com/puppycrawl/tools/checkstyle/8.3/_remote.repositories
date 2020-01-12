@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jan 12 17:53:18 CST 2020
+checkstyle-8.3.jar>aliyun=
+checkstyle-8.3.jar>aliyunmaven=
+checkstyle-8.3.pom>aliyunmaven=
+checkstyle-8.3.pom>aliyun=

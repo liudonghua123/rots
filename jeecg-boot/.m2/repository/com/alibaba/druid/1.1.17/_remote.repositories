@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jan 12 17:53:14 CST 2020
+druid-1.1.17.pom>aliyun=
+druid-1.1.17.jar>aliyun=
+druid-1.1.17.jar>aliyunmaven=
+druid-1.1.17.pom>aliyunmaven=

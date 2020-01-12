@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jan 12 17:51:39 CST 2020
+http\://maven.aliyun.com/nexus/content/groups/public/.error=
+http\://maven.jeecg.org/nexus/content/repositories/jeecg/.lastUpdated=1578822699925
+http\://maven.aliyun.com/nexus/content/groups/public/.lastUpdated=1578822699545

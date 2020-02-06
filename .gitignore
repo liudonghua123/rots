@@ -2,3 +2,13 @@
 .classpath
 .factorypath
 .settings
+## ide
+**/.idea
+*.iml
+
+## backend
+**/target
+**/logs
+
+## front
+**/*.lock

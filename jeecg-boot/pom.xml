@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -17,6 +18,7 @@
 	<modules>
 		<module>jeecg-boot-base-common</module>
 		<module>jeecg-boot-module-system</module>
+		<module>jeecg-boot-module-whba</module>
 	</modules>
 
 	<distributionManagement>
@@ -66,7 +68,7 @@
 	</properties>
 
 	<dependencies>
-		<!--集成springmvc框架并实现自动配置 -->
+		<!--����springmvc��ܲ�ʵ���Զ����� -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -132,7 +134,7 @@
 			<version>${druid.version}</version>
 		</dependency>
 
-		<!-- 动态数据源 -->
+		<!-- ��̬����Դ -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
@@ -160,14 +162,14 @@
 			<version>4.0</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- oracle驱动 -->
+		<!-- oracle���� -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.3</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- postgresql驱动 -->
+		<!-- postgresql���� -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -175,7 +177,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Quartz定时任务 -->
+		<!-- Quartz��ʱ���� -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-quartz</artifactId>
@@ -207,7 +209,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Swagger API文档 -->
+		<!-- Swagger API�ĵ� -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -228,7 +230,7 @@
 			<artifactId>springfox-bean-validators</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-		<!-- # 增加两个配置解决 NumberFormatException -->
+		<!-- # �����������ý�� NumberFormatException -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
@@ -266,15 +268,15 @@
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
 
-		<!-- 代码生成器 -->
-		<!-- 如果下载失败，看这个链接http://jeecg-boot.mydoc.io/?t=345672 -->
+		<!-- ���������� -->
+		<!-- �������ʧ�ܣ����������http://jeecg-boot.mydoc.io/?t=345672 -->
 		<dependency>
 			<groupId>org.jeecgframework.boot</groupId>
 			<artifactId>codegenerate</artifactId>
 			<version>1.0.8</version>
 		</dependency>
 
-		<!-- AutoPoi Excel工具类-->
+		<!-- AutoPoi Excel������-->
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
 			<artifactId>autopoi-web</artifactId>
@@ -293,7 +295,7 @@
 			<version>4.5.11</version>
 		</dependency>
 
-		<!-- 阿里云短信 -->
+		<!-- �����ƶ��� -->
 		<dependency>
 			<groupId>com.aliyun</groupId>
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
@@ -335,7 +337,7 @@
 				<artifactId>jeecg-boot-base-common</artifactId>
 				<version>${jeecgboot.common.version}</version>
 			</dependency>
-			<!-- 七牛云SDK -->
+			<!-- ��ţ��SDK -->
 			<dependency>
 				<groupId>com.qiniu</groupId>
 				<artifactId>qiniu-java-sdk</artifactId>
@@ -345,7 +347,7 @@
 	</dependencyManagement>
 	<build>
 		<plugins>
-			<!--指定JDK编译版本 -->
+			<!--ָ��JDK����汾 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -355,7 +357,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<!-- 打包跳过测试 -->
+			<!-- ����������� -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -363,7 +365,7 @@
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
-			<!-- 避免font文件的二进制文件格式压缩破坏 -->
+			<!-- ����font�ļ��Ķ������ļ���ʽѹ���ƻ� -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>

@@ -158,7 +158,7 @@
             :maxHeight="300"
             :rowNumber="true"
             :rowSelection="true"
-            :actionButton="!disableSubmit"
+            :actionButton="editable"
           />
         </a-tab-pane>
       </a-tabs>
@@ -226,8 +226,7 @@ export default {
             responseName: 'message',
             width: '200px',
             placeholder: '请选择文件',
-            defaultValue: '',
-            disabled: !this.editable
+            defaultValue: ''
           },
           {
             title: '附件名称',
@@ -235,8 +234,7 @@ export default {
             type: FormTypes.input,
             width: '200px',
             placeholder: '请输入${title}',
-            defaultValue: '',
-            disabled: !this.editable
+            defaultValue: ''
           },
           {
             title: '上传设备编码',
@@ -244,8 +242,7 @@ export default {
             type: FormTypes.input,
             width: '200px',
             placeholder: '请输入${title}',
-            defaultValue: '',
-            disabled: !this.editable
+            defaultValue: ''
           }
         ]
       },
@@ -256,6 +253,12 @@ export default {
           list: '/xs/qbSwxszb/queryQbSwxszbfjByMainId'
         }
       }
+    }
+  },
+  computed: {
+    editable: function() {
+      console.info(`editable: ${this.title !== '详情'}`)
+      return this.title !== '详情'
     }
   },
   methods: {

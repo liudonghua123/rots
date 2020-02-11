@@ -511,7 +511,7 @@
                             </a-tooltip>
                           </template>
 
-                          <template style="width: 30px">
+                          <template style="width: 30px" v-if="actionButton">
                             <a-tooltip title="删除并重新上传" style="margin-left:5px">
                               <a-icon
                                 v-if="file.status!=='uploading'"

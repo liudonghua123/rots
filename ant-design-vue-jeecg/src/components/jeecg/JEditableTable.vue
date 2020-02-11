@@ -470,18 +470,21 @@
                       >
                         <div :key="fileKey" style="position: relative;">
                           <img
+                            @click="modalVisible=true,type='image',url=getCellImageView(id)"
                             v-if="guessType(id) === 'image'"
                             :src="getCellImageView(id)"
                             style="height:32px;max-width:100px !important;"
                             alt="图片"
                           />
                           <audio
+                            @click="modalVisible=true,type='audio',url=getCellImageView(id)"
                             v-else-if="guessType(id) === 'audio'"
                             :src="getCellImageView(id)"
                             style="height:32px;max-width:100px !important;"
                             alt="音频"
                           />
                           <video
+                            @click="modalVisible=true,type='video',url=getCellImageView(id)"
                             v-else-if="guessType(id) === 'video'"
                             :src="getCellImageView(id)"
                             style="height:32px;max-width:100px !important;"
@@ -534,6 +537,33 @@
                           <a-button icon="upload">{{ col.placeholder }}</a-button>
                         </a-upload>
                       </div>
+                      <a-modal title="MultiMedia" v-model="modalVisible" @ok="modalVisible=false">
+                        <div>
+                          <img
+                            v-if="type==='image'"
+                            :src="url"
+                            style="width:100%; max-height:300px;"
+                            alt="图片"
+                          />
+                          <audio
+                            controls
+                            v-if="type==='audio'"
+                            :src="url"
+                            style="width:100%; max-height:300px;"
+                            alt="音频"
+                          />
+                          <video
+                            controls
+                            v-if="type==='video'"
+                            :src="url"
+                            style="width:100%; max-height:300px;"
+                            alt="视频"
+                          />
+                        </div>
+                        <template slot="footer">
+                          <a-button key="submit" type="primary" @click="modalVisible=false">OK</a-button>
+                        </template>
+                      </a-modal>
                     </div>
 
                     <!-- radio-begin -->
@@ -807,7 +837,10 @@ export default {
       // 存储显示tooltip的信息
       tooltips: {},
       // 存储没有通过验证的inputId
-      notPassedIds: []
+      notPassedIds: [],
+      modalVisible: false,
+      url: '',
+      type: ''
     }
   },
   created() {

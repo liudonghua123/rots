@@ -1,4 +1,4 @@
-package org.jeecg.modules.demo.xs.entity;
+package org.jeecg.modules.xs.entity;
 
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.IdType;

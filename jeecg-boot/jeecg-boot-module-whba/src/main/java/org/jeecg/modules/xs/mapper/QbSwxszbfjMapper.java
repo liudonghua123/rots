@@ -1,7 +1,7 @@
-package org.jeecg.modules.demo.xs.mapper;
+package org.jeecg.modules.xs.mapper;
 
 import java.util.List;
-import org.jeecg.modules.demo.xs.entity.QbSwxszbfj;
+import org.jeecg.modules.xs.entity.QbSwxszbfj;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

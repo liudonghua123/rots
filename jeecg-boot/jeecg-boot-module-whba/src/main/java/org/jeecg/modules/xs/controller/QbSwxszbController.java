@@ -1,8 +1,6 @@
-package org.jeecg.modules.demo.xs.controller;
+package org.jeecg.modules.xs.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +10,11 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecg.modules.xs.entity.QbSwxszb;
+import org.jeecg.modules.xs.entity.QbSwxszbfj;
+import org.jeecg.modules.xs.service.IQbSwxszbService;
+import org.jeecg.modules.xs.service.IQbSwxszbfjService;
+import org.jeecg.modules.xs.vo.QbSwxszbPage;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -22,11 +25,6 @@ import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.demo.xs.entity.QbSwxszbfj;
-import org.jeecg.modules.demo.xs.entity.QbSwxszb;
-import org.jeecg.modules.demo.xs.vo.QbSwxszbPage;
-import org.jeecg.modules.demo.xs.service.IQbSwxszbService;
-import org.jeecg.modules.demo.xs.service.IQbSwxszbfjService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +35,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import com.alibaba.fastjson.JSON;
 
- /**
+/**
  * @Description: 线索
  * @Author: jeecg-boot
  * @Date:   2020-02-11
@@ -65,9 +62,9 @@ public class QbSwxszbController {
 	 */
 	@GetMapping(value = "/list")
 	public Result<?> queryPageList(QbSwxszb qbSwxszb,
-								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
-								   HttpServletRequest req) {
+                                   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                   HttpServletRequest req) {
 		QueryWrapper<QbSwxszb> queryWrapper = QueryGenerator.initQueryWrapper(qbSwxszb, req.getParameterMap());
 		Page<QbSwxszb> page = new Page<QbSwxszb>(pageNo, pageSize);
 		IPage<QbSwxszb> pageList = qbSwxszbService.page(page, queryWrapper);

@@ -1,8 +1,8 @@
-package org.jeecg.modules.demo.xs.service.impl;
+package org.jeecg.modules.xs.service.impl;
 
-import org.jeecg.modules.demo.xs.entity.QbSwxszbfj;
-import org.jeecg.modules.demo.xs.mapper.QbSwxszbfjMapper;
-import org.jeecg.modules.demo.xs.service.IQbSwxszbfjService;
+import org.jeecg.modules.xs.entity.QbSwxszbfj;
+import org.jeecg.modules.xs.mapper.QbSwxszbfjMapper;
+import org.jeecg.modules.xs.service.IQbSwxszbfjService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

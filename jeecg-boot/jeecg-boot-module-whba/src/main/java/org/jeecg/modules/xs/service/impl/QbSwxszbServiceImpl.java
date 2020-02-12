@@ -1,10 +1,10 @@
-package org.jeecg.modules.demo.xs.service.impl;
+package org.jeecg.modules.xs.service.impl;
 
-import org.jeecg.modules.demo.xs.entity.QbSwxszb;
-import org.jeecg.modules.demo.xs.entity.QbSwxszbfj;
-import org.jeecg.modules.demo.xs.mapper.QbSwxszbfjMapper;
-import org.jeecg.modules.demo.xs.mapper.QbSwxszbMapper;
-import org.jeecg.modules.demo.xs.service.IQbSwxszbService;
+import org.jeecg.modules.xs.entity.QbSwxszb;
+import org.jeecg.modules.xs.entity.QbSwxszbfj;
+import org.jeecg.modules.xs.mapper.QbSwxszbfjMapper;
+import org.jeecg.modules.xs.mapper.QbSwxszbMapper;
+import org.jeecg.modules.xs.service.IQbSwxszbService;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

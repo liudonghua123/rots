@@ -1,7 +1,7 @@
-package org.jeecg.modules.demo.xs.service;
+package org.jeecg.modules.xs.service;
 
-import org.jeecg.modules.demo.xs.entity.QbSwxszbfj;
-import org.jeecg.modules.demo.xs.entity.QbSwxszb;
+import org.jeecg.modules.xs.entity.QbSwxszbfj;
+import org.jeecg.modules.xs.entity.QbSwxszb;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.io.Serializable;
 import java.util.Collection;

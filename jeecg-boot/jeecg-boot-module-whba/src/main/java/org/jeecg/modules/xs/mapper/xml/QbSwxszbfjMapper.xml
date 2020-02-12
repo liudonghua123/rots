@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.jeecg.modules.demo.xs.mapper.QbSwxszbfjMapper">
+<mapper namespace="org.jeecg.modules.xs.mapper.QbSwxszbfjMapper">
 
 	<delete id="deleteByMainId" parameterType="java.lang.String">
 		DELETE 
@@ -8,7 +8,7 @@
 		WHERE
 			 swxsbh = #{mainId} 	</delete>
 	
-	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.demo.xs.entity.QbSwxszbfj">
+	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.xs.entity.QbSwxszbfj">
 		SELECT * 
 		FROM  qb_swxszbfj
 		WHERE

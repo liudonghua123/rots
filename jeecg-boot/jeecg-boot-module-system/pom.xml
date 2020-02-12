@@ -46,9 +46,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executable>
+				<configuration>
 					<executable>true</executable>
-				</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

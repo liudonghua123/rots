@@ -243,8 +243,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-re</artifactId>
-			<version>5.2.13</version>
+			<artifactId>hibernate-common-ol</artifactId>
+			<version>5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>

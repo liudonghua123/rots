@@ -32,6 +32,8 @@
       </a-col>
     </a-row>
 
+    <slot name="actionButtonAfter" :target="getVM()"/>
+
     <div :id="`${caseId}inputTable`" class="input-table">
       <!-- 渲染表头 -->
       <div class="thead" ref="thead">
@@ -155,7 +157,9 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
+
                         <input
                           :id="id"
                           v-bind="buildProps(row,col)"
@@ -187,10 +191,26 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
-                        <span
-                          @mouseover="()=>{handleMouseoverCommono(row,col)}"
-                          @mouseout="()=>{handleMouseoutCommono(row,col)}"
+
+                      <span
+                        @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                        @mouseout="()=>{handleMouseoutCommono(row,col)}">
+
+                        <a-select
+                          :id="id"
+                          :key="i"
+                          v-bind="buildProps(row,col)"
+                          style="width: 100%;"
+                          :value="selectValues[id]"
+                          :options="col.options"
+                          :getPopupContainer="getParentContainer"
+                          :placeholder="replaceProps(col, col.placeholder)"
+                          :filterOption="(i,o)=>handleSelectFilterOption(i,o,col)"
+                          @change="(v)=>handleChangeSelectCommon(v,id,row,col)"
+                          @search="(v)=>handleSearchSelect(v,id,row,col)"
+                          @blur="(v)=>handleBlurSearch(v,id,row,col)"
                         >
                           <a-select
                             :id="id"
@@ -224,25 +244,27 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
-                        <span
-                          @mouseover="()=>{handleMouseoverCommono(row,col)}"
-                          @mouseout="()=>{handleMouseoutCommono(row,col)}"
-                        >
-                          <j-date
-                            :id="id"
-                            :key="i"
-                            v-bind="buildProps(row,col)"
-                            style="width: 100%;"
-                            :value="jdateValues[id]"
-                            :getCalendarContainer="getParentContainer"
-                            :placeholder="replaceProps(col, col.placeholder)"
-                            :trigger-change="true"
-                            :showTime="col.type === formTypes.datetime"
-                            :dateFormat="col.type === formTypes.date? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss'"
-                            @change="(v)=>handleChangeJDateCommon(v,id,row,col,col.type === formTypes.datetime)"
-                          />
-                        </span>
+
+                      <span
+                        @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                        @mouseout="()=>{handleMouseoutCommono(row,col)}">
+
+                        <j-date
+                          :id="id"
+                          :key="i"
+                          v-bind="buildProps(row,col)"
+                          style="width: 100%;"
+                          :value="jdateValues[id]"
+                          :getCalendarContainer="getParentContainer"
+                          :placeholder="replaceProps(col, col.placeholder)"
+                          :trigger-change="true"
+                          :showTime="col.type === formTypes.datetime"
+                          :dateFormat="col.type === formTypes.date? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss'"
+                          @change="(v)=>handleChangeJDateCommon(v,id,row,col,col.type === formTypes.datetime)"/>
+
+                      </span>
                       </a-tooltip>
                     </template>
 
@@ -309,18 +331,33 @@
                       </template>
 
                       <div :hidden="uploadValues[id] != null">
-                        <a-upload
-                          name="file"
-                          :data="{'isup':1}"
-                          :multiple="false"
-                          :action="col.action"
-                          :headers="uploadGetHeaders(row,col)"
-                          :showUploadList="false"
-                          v-bind="buildProps(row,col)"
-                          @change="(v)=>handleChangeUpload(v,id,row,col)"
+                        <a-tooltip
+                          :key="i"
+                          :id="id"
+                          placement="top"
+                          :title="(tooltips[id] || {}).title"
+                          :visible="(tooltips[id] || {}).visible || false"
+                          :autoAdjustOverflow="true"
+                          :getPopupContainer="getParentContainer"
                         >
-                          <a-button icon="upload">{{ col.placeholder }}</a-button>
-                        </a-upload>
+
+                          <span
+                            @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                            @mouseout="()=>{handleMouseoutCommono(row,col)}">
+                            <a-upload
+                              name="file"
+                              :data="{'isup':1}"
+                              :multiple="false"
+                              :action="col.action"
+                              :headers="uploadGetHeaders(row,col)"
+                              :showUploadList="false"
+                              v-bind="buildProps(row,col)"
+                              @change="(v)=>handleChangeUpload(v,id,row,col)"
+                            >
+                              <a-button icon="upload">{{ col.placeholder }}</a-button>
+                            </a-upload>
+                          </span>
+                        </a-tooltip>
                       </div>
                     </div>
 
@@ -333,7 +370,9 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
+
                         <span
                           @mouseover="()=>{handleMouseoverCommono(row,col)}"
                           @mouseout="()=>{handleMouseoutCommono(row,col)}"
@@ -392,18 +431,33 @@
                       </template>
 
                       <div :hidden="uploadValues[id] != null">
-                        <a-upload
-                          name="file"
-                          :data="{'isup':1}"
-                          :multiple="false"
-                          :action="getUploadAction(col.action)"
-                          :headers="uploadGetHeaders(row,col)"
-                          :showUploadList="false"
-                          v-bind="buildProps(row,col)"
-                          @change="(v)=>handleChangeUpload(v,id,row,col)"
+                        <a-tooltip
+                          :key="i"
+                          :id="id"
+                          placement="top"
+                          :title="(tooltips[id] || {}).title"
+                          :visible="(tooltips[id] || {}).visible || false"
+                          :autoAdjustOverflow="true"
+                          :getPopupContainer="getParentContainer"
                         >
-                          <a-button icon="upload">{{ col.placeholder }}</a-button>
-                        </a-upload>
+
+                          <span
+                            @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                            @mouseout="()=>{handleMouseoutCommono(row,col)}">
+                            <a-upload
+                              name="file"
+                              :data="{'isup':1}"
+                              :multiple="false"
+                              :action="getUploadAction(col.action)"
+                              :headers="uploadGetHeaders(row,col)"
+                              :showUploadList="false"
+                              v-bind="buildProps(row,col)"
+                              @change="(v)=>handleChangeUpload(v,id,row,col)"
+                            >
+                              <a-button icon="upload">{{ col.placeholder }}</a-button>
+                            </a-upload>
+                          </span>
+                        </a-tooltip>
                       </div>
                     </div>
 
@@ -447,18 +501,33 @@
                       </template>
 
                       <div :hidden="uploadValues[id] != null">
-                        <a-upload
-                          name="file"
-                          :data="{'isup':1}"
-                          :multiple="false"
-                          :action="getUploadAction(col.action)"
-                          :headers="uploadGetHeaders(row,col)"
-                          :showUploadList="false"
-                          v-bind="buildProps(row,col)"
-                          @change="(v)=>handleChangeUpload(v,id,row,col)"
+                        <a-tooltip
+                          :key="i"
+                          :id="id"
+                          placement="top"
+                          :title="(tooltips[id] || {}).title"
+                          :visible="(tooltips[id] || {}).visible || false"
+                          :autoAdjustOverflow="true"
+                          :getPopupContainer="getParentContainer"
                         >
-                          <a-button icon="upload">请上传图片</a-button>
-                        </a-upload>
+
+                          <span
+                            @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                            @mouseout="()=>{handleMouseoutCommono(row,col)}">
+                            <a-upload
+                              name="file"
+                              :data="{'isup':1}"
+                              :multiple="false"
+                              :action="getUploadAction(col.action)"
+                              :headers="uploadGetHeaders(row,col)"
+                              :showUploadList="false"
+                              v-bind="buildProps(row,col)"
+                              @change="(v)=>handleChangeUpload(v,id,row,col)"
+                            >
+                              <a-button icon="upload">请上传图片</a-button>
+                            </a-upload>
+                          </span>
+                        </a-tooltip>
                       </div>
                     </div>
                     <!-- update-end-author:taoyan date:0827 for：图片逻辑新增 -->
@@ -575,7 +644,9 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
+
                         <span
                           @mouseover="()=>{handleMouseoverCommono(row,col)}"
                           @mouseout="()=>{handleMouseoutCommono(row,col)}"
@@ -607,7 +678,9 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
+
                         <span
                           @mouseover="()=>{handleMouseoverCommono(row,col)}"
                           @mouseout="()=>{handleMouseoutCommono(row,col)}"
@@ -640,7 +713,9 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
+
                         <span
                           @mouseover="()=>{handleMouseoverCommono(row,col)}"
                           @mouseout="()=>{handleMouseoutCommono(row,col)}"
@@ -673,7 +748,9 @@
                         :title="(tooltips[id] || {}).title"
                         :visible="(tooltips[id] || {}).visible || false"
                         :autoAdjustOverflow="true"
+                        :getPopupContainer="getParentContainer"
                       >
+
                         <span
                           @mouseover="()=>{handleMouseoverCommono(row,col)}"
                           @mouseout="()=>{handleMouseoutCommono(row,col)}"
@@ -735,11 +812,63 @@ export default {
       type: Array,
       required: true
     },
-    // 数据源
-    dataSource: {
-      type: Array,
-      required: true,
-      default: () => []
+    data() {
+      return {
+        // caseId，用于防止有多个实例的时候会冲突
+        caseId: `_jet-${randomString(6)}-`,
+        // 存储document element 对象
+        el: {
+          inputTable: null,
+          tbody: null
+        },
+        // 存储各个div的style
+        style: {
+          // 'max-height': '400px'
+          tbody: { left: '0px' },
+          // 左侧固定td的style
+          tdLeft: { 'min-width': '4%', 'max-width': '45px' },
+          tdLeftDs: { 'min-width': '30px', 'max-width': '35px' },
+        },
+        // 表单的类型
+        formTypes: FormTypes,
+        // 行数据
+        rows: [],
+        // 行高，height + padding + border
+        rowHeight,
+        // 滚动条顶部距离
+        scrollTop: 0,
+        // 绑定 select 的值
+        selectValues: {},
+        // 绑定 checkbox 的值
+        checkboxValues: {},
+        // 绑定 jdate 的值
+        jdateValues: {},
+        // 绑定插槽数据
+        slotValues: {},
+        // file 信息
+        uploadValues: {},
+        //popup信息
+        popupValues: {},
+
+        radioValues: {},
+        metaCheckboxValues: {},
+        multiSelectValues: {},
+        searchSelectValues: {},
+        // 绑定左侧选择框已选择的id
+        selectedRowIds: [],
+        // 存储被删除行的id
+        deleteIds: [],
+        // 存储显示tooltip的信息
+        tooltips: {},
+        // 存储没有通过验证的inputId
+        notPassedIds: []
+      }
+    },
+    created() {
+      this.inputValues = []
+      // 当前显示的tr
+      this.visibleTrEls = []
+      this.disabledRowIds = (this.disabledRowIds || [])
     },
     // 是否显示操作按钮
     actionButton: {
@@ -896,278 +1025,243 @@ export default {
             calcWidth += ' + '
           }
         }
-      })
-      calcWidth += ')'
-      // console.log('calcWidth: ', calcWidth)
-      return calcWidth
-    }
-  },
-  // 侦听器
-  watch: {
-    rows: {
-      immediate: true,
-      handler(val, old) {
-        // val.forEach(item => {
-        //   for (let inputValue of  this.inputValues) {
-        //     if (inputValue.id === item.id) {
-        //       item['dbFieldName'] = inputValue['dbFieldName']
-        //       break
-        //     }
-        //   }
-        // })
-        // console.log('watch.rows:', cloneObject({ val, old }))
-      }
-    },
-    dataSource: {
-      immediate: true,
-      handler: function(newValue) {
-        this.initialize()
+      },
+      dataSource: {
+        immediate: true,
+        handler: function (newValue) {
+          // 兼容IE
+          this.getElementPromise('tbody').then(() => {
 
-        let rows = []
-        let checkboxValues = {}
-        let selectValues = {}
-        let jdateValues = {}
-        let slotValues = {}
-        let uploadValues = {}
-        let popupValues = {}
-        let radioValues = {}
-        let multiSelectValues = {}
-        let searchSelectValues = {}
+            this.initialize()
 
-        // 禁用行的id
-        let disabledRowIds = this.disabledRowIds || []
-        newValue.forEach((data, newValueIndex) => {
-          // 判断源数据是否带有id
-          if (data.id == null || data.id === '') {
-            data.id = this.removeCaseId(this.generateId() + newValueIndex)
-          }
+            let rows = []
+            let checkboxValues = {}
+            let selectValues = {}
+            let jdateValues = {}
+            let slotValues = {}
+            let uploadValues = {}
+            let popupValues = {}
+            let radioValues = {}
+            let multiSelectValues = {}
+            let searchSelectValues = {}
 
-          let value = { id: this.caseId + data.id }
-          let row = { id: value.id }
-          let disabled = false
-          this.columns.forEach(column => {
-            let inputId = column.key + value.id
-            let sourceValue = (data[column.key] == null ? '' : data[column.key]).toString()
-            if (column.type === FormTypes.checkbox) {
-              // 判断是否设定了customValue（自定义值）
-              if (column.customValue instanceof Array) {
-                let customValue = (column.customValue[0] || '').toString()
-                checkboxValues[inputId] = sourceValue === customValue
-              } else {
-                checkboxValues[inputId] = sourceValue
+            // 禁用行的id
+            let disabledRowIds = (this.disabledRowIds || [])
+            newValue.forEach((data, newValueIndex) => {
+              // 判断源数据是否带有id
+              if (data.id == null || data.id === '') {
+                data.id = this.removeCaseId(this.generateId() + newValueIndex)
               }
-            } else if (column.type === FormTypes.select) {
-              if (sourceValue) {
-                // 判断是否是多选
-                selectValues[inputId] =
-                  (column.props || {})['mode'] === 'multiple' ? sourceValue.split(',') : sourceValue
-              } else {
-                selectValues[inputId] = undefined
-              }
-            } else if (column.type === FormTypes.date || column.type === FormTypes.datetime) {
-              jdateValues[inputId] = sourceValue
-            } else if (column.type === FormTypes.slot) {
-              if (sourceValue !== 0 && !sourceValue) {
-                slotValues[inputId] = column.defaultValue
-              } else {
-                slotValues[inputId] = sourceValue
-              }
-            } else if (column.type === FormTypes.popup) {
-              popupValues[inputId] = sourceValue
-            } else if (column.type === FormTypes.radio) {
-              radioValues[inputId] = sourceValue
-            } else if (column.type === FormTypes.sel_search) {
-              searchSelectValues[inputId] = sourceValue
-            } else if (column.type === FormTypes.list_multi) {
-              if (sourceValue.length > 0) {
-                multiSelectValues[inputId] = sourceValue.split(',')
-              } else {
-                multiSelectValues[inputId] = []
-              }
-            } else if (
-              column.type === FormTypes.upload ||
-              column.type === FormTypes.file ||
-              column.type === FormTypes.image ||
-              column.type === FormTypes.multimedia
-            ) {
-              if (sourceValue) {
-                let fileName = sourceValue.substring(sourceValue.lastIndexOf('/') + 1)
-                uploadValues[inputId] = {
-                  name: fileName,
-                  status: 'done',
-                  path: sourceValue
-                }
-              }
-            } else {
-              value[column.key] = sourceValue
-            }
 
-            // 解析disabledRows
-            for (let columnKey in this.disabledRows) {
-              // 判断是否有该属性
-              if (this.disabledRows.hasOwnProperty(columnKey) && data.hasOwnProperty(columnKey)) {
-                if (disabled !== true) {
-                  let temp = this.disabledRows[columnKey]
-                  // 禁用规则可以是一个数组
-                  if (temp instanceof Array) {
-                    disabled = temp.includes(data[columnKey])
+              let value = { id: this.caseId + data.id }
+              let row = { id: value.id }
+              let disabled = false
+              this.columns.forEach(column => {
+                let inputId = column.key + value.id
+                let sourceValue = (data[column.key] == null ? '' : data[column.key]).toString()
+                if (column.type === FormTypes.checkbox) {
+
+                  // 判断是否设定了customValue（自定义值）
+                  if (column.customValue instanceof Array) {
+                    let customValue = (column.customValue[0] || '').toString()
+                    checkboxValues[inputId] = (sourceValue === customValue)
                   } else {
-                    disabled = temp === data[columnKey]
+                    checkboxValues[inputId] = sourceValue
                   }
-                  if (disabled) {
-                    disabledRowIds.push(row.id)
+
+                } else if (column.type === FormTypes.select) {
+                  if (sourceValue) {
+                    // 判断是否是多选
+                    selectValues[inputId] = (column.props || {})['mode'] === 'multiple' ? sourceValue.split(',') : sourceValue
+                  } else {
+                    selectValues[inputId] = undefined
                   }
+
+                } else if (column.type === FormTypes.date || column.type === FormTypes.datetime) {
+                  jdateValues[inputId] = sourceValue
+
+                } else if (column.type === FormTypes.slot) {
+                  if (sourceValue !== 0 && !sourceValue) {
+                    slotValues[inputId] = column.defaultValue
+                  } else {
+                    slotValues[inputId] = sourceValue
+                  }
+
+                } else if (column.type === FormTypes.popup) {
+                  popupValues[inputId] = sourceValue
+                } else if (column.type === FormTypes.radio) {
+                  radioValues[inputId] = sourceValue
+                } else if (column.type === FormTypes.sel_search) {
+                  searchSelectValues[inputId] = sourceValue
+                } else if (column.type === FormTypes.list_multi) {
+                  if (sourceValue.length > 0) {
+                    multiSelectValues[inputId] = sourceValue.split(',')
+                  } else {
+                    multiSelectValues[inputId] = []
+                  }
+                } else if (column.type === FormTypes.upload || column.type === FormTypes.file || column.type === FormTypes.image) {
+                  if (sourceValue) {
+                    let fileName = sourceValue.substring(sourceValue.lastIndexOf('/') + 1)
+                    uploadValues[inputId] = {
+                      name: fileName,
+                      status: 'done',
+                      path: sourceValue
+                    }
+                  }
+                } else {
+                  value[column.key] = sourceValue
+                }
+
+                // 解析disabledRows
+                for (let columnKey in this.disabledRows) {
+                  // 判断是否有该属性
+                  if (this.disabledRows.hasOwnProperty(columnKey) && data.hasOwnProperty(columnKey)) {
+                    if (disabled !== true) {
+                      let temp = this.disabledRows[columnKey]
+                      // 禁用规则可以是一个数组
+                      if (temp instanceof Array) {
+                        disabled = temp.includes(data[columnKey])
+                      } else {
+                        disabled = (temp === data[columnKey])
+                      }
+                      if (disabled) {
+                        disabledRowIds.push(row.id)
+                      }
+                    }
+                  }
+                }
+              })
+              this.inputValues.push(value)
+              rows.push(row)
+            })
+            this.disabledRowIds = disabledRowIds
+            this.checkboxValues = checkboxValues
+            this.selectValues = selectValues
+            this.jdateValues = jdateValues
+            this.slotValues = slotValues
+            this.rows = rows
+            this.uploadValues = uploadValues
+            this.popupValues = popupValues
+            this.radioValues = radioValues
+            this.multiSelectValues = multiSelectValues
+            this.searchSelectValues = searchSelectValues
+
+            // 更新form表单的值
+            this.$nextTick(() => {
+              this.updateFormValues()
+            })
+          })
+        }
+      },
+      columns: {
+        immediate: true,
+        handler(columns) {
+          // 兼容IE
+          this.getElementPromise('tbody').then(() => {
+            columns.forEach(column => {
+              if (column.type === FormTypes.select || column.type === FormTypes.list_multi || column.type === FormTypes.sel_search) {
+                // 兼容 旧版本 options
+                if (column.options instanceof Array) {
+                  column.options = column.options.map(item => {
+                    if (item) {
+                      return {
+                        ...item,
+                        text: item.text || item.title,
+                        title: item.text || item.title
+                      }
+                    }
+                    return {}
+                  })
+                }
+                if (column.dictCode) {
+                  this._loadDictConcatToOptions(column)
                 }
               }
-            }
+            })
           })
-          this.inputValues.push(value)
-          rows.push(row)
-        })
-        this.disabledRowIds = disabledRowIds
-        this.checkboxValues = checkboxValues
-        this.selectValues = selectValues
-        this.jdateValues = jdateValues
-        this.slotValues = slotValues
-        this.rows = rows
-        this.uploadValues = uploadValues
-        this.popupValues = popupValues
-        this.radioValues = radioValues
-        this.multiSelectValues = multiSelectValues
-        this.searchSelectValues = searchSelectValues
-
-        // 更新form表单的值
-        this.$nextTick(() => {
-          this.updateFormValues()
-        })
+        }
+      },
+      // 当selectRowIds改变时触发事件
+      selectedRowIds(newValue) {
+        this.$emit('selectRowChange', cloneObject(newValue).map(i => this.removeCaseId(i)))
       }
     },
-    columns: {
-      immediate: true,
-      handler(columns) {
-        columns.forEach(column => {
-          if (
-            column.type === FormTypes.select ||
-            column.type === FormTypes.list_multi ||
-            column.type === FormTypes.sel_search
-          ) {
-            // 兼容 旧版本 options
-            if (column.options instanceof Array) {
-              column.options = column.options.map(item => {
-                if (item) {
-                  return {
-                    ...item,
-                    text: item.text || item.title,
-                    title: item.text || item.title
-                  }
-                }
-                return {}
-              })
+    mounted() {
+      let vm = this
+      /** 监听滚动条事件 */
+      this.getElement('inputTable').onscroll = function (event) {
+        vm.syncScrollBar(event.target.scrollLeft)
+      }
+      this.getElement('tbody').onscroll = function (event) {
+        // vm.recalcTrHiddenItem(event.target.scrollTop)
+      }
+
+      let { thead, scrollView } = this.$refs
+      scrollView.onscroll = function (event) {
+
+        // console.log(event.target.scrollTop, ' - ', event.target.scrollLeft)
+
+        thead.scrollLeft = event.target.scrollLeft
+
+        // vm.recalcTrHiddenItem(event.target.scrollTop)
+
+        vm.recalcTrHiddenItem(event.target.scrollTop)
+
+      }
+
+    },
+    methods: {
+
+      getElement(id, noCaseId = false) {
+        if (!this.el[id]) {
+          this.el[id] = document.getElementById((noCaseId ? '' : this.caseId) + id)
+        }
+        return this.el[id]
+      },
+
+      getElementPromise(id, noCaseId = false) {
+        return new Promise((resolve) => {
+          let timer = setInterval(() => {
+            let element = this.getElement(id, noCaseId)
+            if (element) {
+              clearInterval(timer)
+              resolve(element)
             }
-            if (column.dictCode) {
-              this._loadDictConcatToOptions(column)
-            }
-          }
+          }, 10)
         })
-      }
-    },
-    // 当selectRowIds改变时触发事件
-    selectedRowIds(newValue) {
-      this.$emit(
-        'selectRowChange',
-        cloneObject(newValue).map(i => this.removeCaseId(i))
-      )
-    }
-  },
-  mounted() {
-    // 获取document element对象
-    let elements = {}
-    ;['inputTable', 'tbody'].forEach(id => {
-      elements[id] = document.getElementById(this.caseId + id)
-    })
-    this.el = elements
+      },
 
-    let vm = this
-    /** 监听滚动条事件 */
-    this.el.inputTable.onscroll = function(event) {
-      vm.syncScrollBar(event.target.scrollLeft)
-    }
-    this.el.tbody.onscroll = function(event) {
-      // vm.recalcTrHiddenItem(event.target.scrollTop)
-    }
-
-    let { thead, scrollView } = this.$refs
-    scrollView.onscroll = function(event) {
-      // console.log(event.target.scrollTop, ' - ', event.target.scrollLeft)
-
-      thead.scrollLeft = event.target.scrollLeft
-
-      // vm.recalcTrHiddenItem(event.target.scrollTop)
-
-      vm.recalcTrHiddenItem(event.target.scrollTop)
-    }
-  },
-  methods: {
-    /** 初始化列表 */
-    initialize() {
-      // inputValues：用来存储input表单的值
-      // 数组里的每项都是一个对象，对象里每个key都是input的rowKey，值就是input的值，其中有个id的字段来区分
-      // 示例：
-      // [{
-      //    id: "_jet-4sp0iu-15541771111770"
-      //    dbDefaultVal: "aaa",
-      //    dbFieldName: "bbb",
-      //    dbFieldTxt: "ccc",
-      //    dbLength: 32
-      // }]
-      this.inputValues = []
-      this.visibleTrEls = []
-      this.rows = []
-      this.deleteIds = []
-      this.selectValues = {}
-      this.checkboxValues = {}
-      this.jdateValues = {}
-      this.slotValues = {}
-      this.selectedRowIds = []
-      this.tooltips = {}
-      this.notPassedIds = []
-      this.uploadValues = []
-      this.popupValues = []
-      this.radioValues = []
-      this.multiSelectValues = []
-      this.searchSelectValues = []
-      this.scrollTop = 0
-      this.$nextTick(() => {
-        this.el.tbody.scrollTop = 0
-      })
-    },
-
-    /** 同步滚动条状态 */
-    syncScrollBar(scrollLeft) {
-      // this.style.tbody.left = `${scrollLeft}px`
-      // this.el.tbody.scrollLeft = scrollLeft
-    },
-    /** 重置滚动条位置，参数留空则滚动到上次记录的位置 */
-    resetScrollTop(top) {
-      let { scrollView } = this.$refs
-      if (top != null && typeof top === 'number') {
-        scrollView.scrollTop = top
-      } else {
-        scrollView.scrollTop = this.scrollTop
-      }
-    },
-    /** 重新计算需要隐藏或显示的tr */
-    recalcTrHiddenItem(top) {
-      let diff = top - this.scrollTop
-      if (diff < 0) {
-        diff = this.scrollTop - top
-      }
-      // 只有在滚动了百分之三十的行高的距离时才进行更新
-      if (diff >= this.rowHeight * 0.3) {
-        this.scrollTop = top
-        // 更新form表单的值
+      /** 初始化列表 */
+      initialize() {
+        // inputValues：用来存储input表单的值
+        // 数组里的每项都是一个对象，对象里每个key都是input的rowKey，值就是input的值，其中有个id的字段来区分
+        // 示例：
+        // [{
+        //    id: "_jet-4sp0iu-15541771111770"
+        //    dbDefaultVal: "aaa",
+        //    dbFieldName: "bbb",
+        //    dbFieldTxt: "ccc",
+        //    dbLength: 32
+        // }]
+        this.inputValues = []
+        this.visibleTrEls = []
+        this.rows = []
+        this.deleteIds = []
+        this.selectValues = {}
+        this.checkboxValues = {}
+        this.jdateValues = {}
+        this.slotValues = {}
+        this.selectedRowIds = []
+        this.tooltips = {}
+        this.notPassedIds = []
+        this.uploadValues = []
+        this.popupValues = []
+        this.radioValues = []
+        this.multiSelectValues = []
+        this.searchSelectValues = []
+        this.scrollTop = 0
         this.$nextTick(() => {
-          this.updateFormValues()
+          this.getElement('tbody').scrollTop = 0
         })
       }
     },
@@ -1185,50 +1279,16 @@ export default {
         rows = cloneObject(this.rows) || []
       }
 
-      if (record.id == null) {
-        record.id = this.generateId(rows)
-        // let timestamp = new Date().getTime()
-        // record.id = `${this.caseId}${timestamp}${rows.length}`
-      }
-      if (record.id.indexOf(this.caseId) === -1) {
-        record.id = this.caseId + record.id
-      }
-      let row = { id: record.id }
-      let value = { id: row.id }
-      let checkboxValues = Object.assign({}, this.checkboxValues)
-      let selectValues = Object.assign({}, this.selectValues)
-      let jdateValues = Object.assign({}, this.jdateValues)
-      let slotValues = Object.assign({}, this.slotValues)
-      this.columns.forEach(column => {
-        let key = column.key
-        let inputId = key + row.id
-        // record中是否有该列的值
-        let recordHasValue = record[key] != null
-        if (column.type === FormTypes.input) {
-          value[key] = recordHasValue ? record[key] : column.defaultValue || (column.defaultValue === 0 ? 0 : '')
-        } else if (column.type === FormTypes.inputNumber) {
-          // 判断是否是排序字段，如果是就赋最大值
-          if (column.isOrder === true) {
-            value[key] = this.getInputNumberMaxValue(column) + 1
-          } else {
-            value[key] = recordHasValue ? record[key] : column.defaultValue || (column.defaultValue === 0 ? 0 : '')
-          }
-        } else if (column.type === FormTypes.checkbox) {
-          checkboxValues[inputId] = recordHasValue ? record[key] : column.defaultChecked
-        } else if (column.type === FormTypes.select) {
-          let selected = column.defaultValue
-          if (selected !== 0 && !selected) {
-            selected = undefined
-          }
-          // 判断多选
-          if (typeof selected === 'string' && (column.props || {})['mode'] === 'multiple') {
-            selected = selected.split(',')
-          }
-          selectValues[inputId] = recordHasValue ? record[key] : selected
-        } else if (column.type === FormTypes.date || column.type === FormTypes.datetime) {
-          jdateValues[inputId] = recordHasValue ? record[key] : column.defaultValue
-        } else if (column.type === FormTypes.slot) {
-          slotValues[inputId] = recordHasValue ? record[key] : column.defaultValue || ''
+      /** 同步滚动条状态 */
+      syncScrollBar(scrollLeft) {
+        // this.style.tbody.left = `${scrollLeft}px`
+        // this.getElement('tbody').scrollLeft = scrollLeft
+      },
+      /** 重置滚动条位置，参数留空则滚动到上次记录的位置 */
+      resetScrollTop(top) {
+        let { scrollView } = this.$refs
+        if (top != null && typeof top === 'number') {
+          scrollView.scrollTop = top
         } else {
           value[key] = recordHasValue ? record[key] : ''
         }
@@ -1256,25 +1316,24 @@ export default {
         this.$nextTick(() => {
           this.updateFormValues()
         })
-      }
-      return rows
-    },
-    /** 获取某一数字输入框列中的最大的值 */
-    getInputNumberMaxValue(column) {
-      let maxNum = 0
-      this.inputValues.forEach((item, index) => {
-        let val = item[column.key],
-          num
-        try {
-          num = parseInt(val)
-        } catch {
-          num = 0
-        }
-        // 把首次循环的结果当成最大值
-        if (index === 0) {
-          maxNum = num
-        } else {
-          maxNum = num > maxNum ? num : maxNum
+        // 触发add事件
+        this.$emit('added', {
+          row: (() => {
+            let r = Object.assign({}, row)
+            r.id = this.removeCaseId(r.id)
+            return r
+          })(),
+          target: this
+        })
+        // 设置滚动条位置
+        let tbody = this.getElement('tbody')
+        let offsetHeight = tbody.offsetHeight
+        let realScrollTop = tbody.scrollTop + offsetHeight
+        if (forceScrollToBottom === false) {
+          // 只有滚动条在底部的时候才自动滚动
+          if (!((tbody.scrollHeight - realScrollTop) <= 10)) {
+            return
+          }
         }
       })
       return maxNum
@@ -1394,51 +1453,86 @@ export default {
       return true
     },
 
-    /** 获取表格表单里的值（同步版） */
-    getValuesSync(options = {}) {
-      let { validate, rowIds } = options
-      if (typeof validate !== 'boolean') validate = true
-      if (!(rowIds instanceof Array)) rowIds = null
-      // console.log('options:', { validate, rowIds })
+      /** 获取表格表单里的值（异步版） */
+      getValuesAsync(options = {}, callback) {
+        let { validate, rowIds } = options
+        if (typeof validate !== 'boolean') validate = true
+        if (!(rowIds instanceof Array)) rowIds = null
+        // console.log('options:', { validate, rowIds })
 
-      let error = 0
-      let inputValues = cloneObject(this.inputValues)
-      let tooltips = Object.assign({}, this.tooltips)
-      let notPassedIds = cloneObject(this.notPassedIds)
-      // 用于存储合并后的值
-      let values = []
-      // 遍历inputValues来获取每行的值
-      for (let value of inputValues) {
-        let rowIdsFlag = false
-        // 如果带有rowIds，那么就只存这几行的数据
-        if (rowIds == null) {
-          rowIdsFlag = true
-        } else {
-          for (let rowId of rowIds) {
-            if (rowId === value.id || `${this.caseId}${rowId}` === value.id) {
-              rowIdsFlag = true
-              break
+        let asyncCount = 0
+        let error = 0
+        let inputValues = cloneObject(this.inputValues)
+        let tooltips = Object.assign({}, this.tooltips)
+        let notPassedIds = cloneObject(this.notPassedIds)
+        // 用于存储合并后的值
+        let values = []
+        // 遍历inputValues来获取每行的值
+        for (let value of inputValues) {
+          let rowIdsFlag = false
+          // 如果带有rowIds，那么就只存这几行的数据
+          if (rowIds == null) {
+            rowIdsFlag = true
+          } else {
+            for (let rowId of rowIds) {
+              if (rowId === value.id || `${this.caseId}${rowId}` === value.id) {
+                rowIdsFlag = true
+                break
+              }
             }
           }
         }
 
         if (!rowIdsFlag) continue
 
-        this.columns.forEach(column => {
-          let inputId = column.key + value.id
-          if (column.type === FormTypes.checkbox) {
-            let checked = this.checkboxValues[inputId]
-            if (column.customValue instanceof Array) {
-              value[column.key] = checked ? column.customValue[0] : column.customValue[1]
-            } else {
-              value[column.key] = checked
+            } else if (column.type === FormTypes.image || column.type === FormTypes.file) {
+              let currUploadObj = cloneObject(this.uploadValues[inputId] || null)
+              if (currUploadObj) {
+                value[column.key] = currUploadObj['path'] || null
+              }
+
+            } else if (column.type === FormTypes.popup) {
+              if (!value[column.key]) {
+                value[column.key] = this.popupValues[inputId] || null
+              }
+            } else if (column.type === FormTypes.radio) {
+              value[column.key] = this.radioValues[inputId]
+            } else if (column.type === FormTypes.sel_search) {
+              value[column.key] = this.searchSelectValues[inputId]
+            } else if (column.type === FormTypes.list_multi) {
+              if (!this.multiSelectValues[inputId] || this.multiSelectValues[inputId].length === 0) {
+                value[column.key] = ''
+              } else {
+                value[column.key] = this.multiSelectValues[inputId].join(',')
+              }
+            } else if (column.type === FormTypes.slot) {
+              value[column.key] = this.slotValues[inputId]
             }
-          } else if (column.type === FormTypes.select) {
-            let selected = this.selectValues[inputId]
-            if (selected instanceof Array) {
-              value[column.key] = cloneObject(selected)
-            } else {
-              value[column.key] = selected
+
+
+            // 检查表单验证
+            if (validate === true) {
+              const handleValidateOneInput = (results) => {
+                tooltips[inputId] = results[0]
+                if (tooltips[inputId].passed === false) {
+                  error++
+                  // if (error++ === 0) {
+                  // let element = document.getElementById(inputId)
+                  // while (element.className !== 'tr') {
+                  //   element = element.parentElement
+                  // }
+                  // this.jumpToId(inputId, element)
+                  // }
+                }
+                tooltips[inputId].visible = false
+                notPassedIds = results[1]
+              }
+              asyncCount++
+              let results = this.validateOneInputAsync(value[column.key], value, column, notPassedIds, false, 'getValues', (results) => {
+                handleValidateOneInput(results)
+                asyncCount--
+              })
+              handleValidateOneInput(results)
             }
           } else if (column.type === FormTypes.date || column.type === FormTypes.datetime) {
             value[column.key] = this.jdateValues[inputId]
@@ -1494,41 +1588,57 @@ export default {
         values.push(value)
       }
 
-      if (validate === true) {
-        this.tooltips = tooltips
-        this.notPassedIds = notPassedIds
-      }
-      return { error, values }
-    },
-
-    /** 获取表格表单里的值 */
-    getValues(callback, validate = true, rowIds) {
-      let result = this.getValuesSync({ validate, rowIds })
-      if (typeof callback === 'function') {
-        callback(result.error, result.values)
-      }
-    },
-    /** getValues的Promise版 */
-    getValuesPromise(validate = true, rowIds) {
-      return new Promise((resolve, reject) => {
-        let { error, values } = this.getValuesSync({ validate, rowIds })
-        if (error === 0) {
-          resolve(values)
-        } else {
-          reject(VALIDATE_NO_PASSED)
+        if (validate === true) {
+          this.tooltips = tooltips
+          this.notPassedIds = notPassedIds
         }
-      })
-    },
-    /** 获取被删除项的id */
-    getDeleteIds() {
-      return cloneObject(this.deleteIds)
-    },
-    /** 获取所有的数据，包括values、deleteIds */
-    getAll(validate) {
-      return new Promise((resolve, reject) => {
-        let deleteIds = this.getDeleteIds()
-        this.getValuesPromise(validate)
-          .then(values => {
+
+        const timer = setInterval(() => {
+          if (asyncCount === 0) {
+            clearInterval(timer)
+            if (typeof callback === 'function') {
+              callback({ error, values })
+            }
+          }
+        }, 50)
+
+        return { error, values }
+      },
+
+      /** 获取表格表单里的值（同步版） */
+      getValuesSync(options = {}) {
+        return this.getValuesAsync(options)
+      },
+
+      /** 获取表格表单里的值 */
+      getValues(callback, validate = true, rowIds) {
+        this.getValuesAsync({ validate, rowIds }, ({ error, values }) => {
+          if (typeof callback === 'function') {
+            callback(error, values)
+          }
+        })
+      },
+      /** getValues的Promise版 */
+      getValuesPromise(validate = true, rowIds) {
+        return new Promise((resolve, reject) => {
+          this.getValuesAsync({ validate, rowIds }, ({ error, values }) => {
+            if (error === 0) {
+              resolve(values)
+            } else {
+              reject(VALIDATE_NO_PASSED)
+            }
+          })
+        })
+      },
+      /** 获取被删除项的id */
+      getDeleteIds() {
+        return cloneObject(this.deleteIds)
+      },
+      /** 获取所有的数据，包括values、deleteIds */
+      getAll(validate) {
+        return new Promise((resolve, reject) => {
+          let deleteIds = this.getDeleteIds()
+          this.getValuesPromise(validate).then((values) => {
             resolve({ values, deleteIds })
           })
           .catch(error => {
@@ -1587,20 +1697,84 @@ export default {
               }
               edited = true
             }
-            // 在 checkboxValues 中寻找值
-            if (!edited && this.checkboxValues.hasOwnProperty(modelKey)) {
-              this.checkboxValues[modelKey] = newValue
-              edited = true
+          }
+        })
+        // 强制更新formValues
+        this.forceUpdateFormValues()
+      },
+
+      /** 跳转到指定位置 */
+      // jumpToId(id, element) {
+      //   if (element == null) {
+      //     element = document.getElementById(id)
+      //   }
+      //   if (element != null) {
+      //     console.log(this.getElement('tbody').scrollTop, element.offsetTop)
+      //     this.getElement('tbody').scrollTop = element.offsetTop
+      //     console.log(this.getElement('tbody').scrollTop, element.offsetTop)
+      //   }
+      // },
+
+      /**
+       * 验证单个表单，异步版
+       *
+       * @param value 校验的值
+       * @param row 校验的行
+       * @param column 校验的列
+       * @param notPassedIds 没有通过校验的 id
+       * @param update 是否更新到vue中
+       * @param validType 校验触发的方式（input、blur等）
+       * @param callback
+       */
+      validateOneInputAsync(value, row, column, notPassedIds, update = false, validType = 'input', callback) {
+        let tooltips = Object.assign({}, this.tooltips)
+        // let notPassedIds = cloneObject(this.notPassedIds)
+        let inputId = column.key + row.id
+        tooltips[inputId] = tooltips[inputId] ? tooltips[inputId] : {}
+
+        let [passed, message] = this.validateValue(column, value)
+
+        const nextThen = res => {
+          let [passed, message] = res
+          if (passed == null) {
+            // debugger
+          }
+          if (passed == null && tooltips[inputId].visible != null) {
+            return
+          }
+          passed = passed == null ? true : passed
+          tooltips[inputId].visible = !passed
+          tooltips[inputId].passed = passed
+          let index = notPassedIds.indexOf(inputId)
+          let borderColor = null, boxShadow = null
+          if (!passed) {
+            tooltips[inputId].title = this.replaceProps(column, message)
+            borderColor = 'red'
+            boxShadow = `0 0 0 2px rgba(255, 0, 0, 0.2)`
+            if (index === -1) notPassedIds.push(inputId)
+          } else {
+            if (index !== -1) notPassedIds.splice(index, 1)
+          }
+
+          let element = document.getElementById(inputId)
+          if (element != null) {
+            // select 在 .ant-select-selection 上设置 border-color
+            if (column.type === FormTypes.select) {
+              element = element.getElementsByClassName('ant-select-selection')[0]
             }
             // 在 jdateValues 中寻找值
             if (!edited && this.jdateValues.hasOwnProperty(modelKey)) {
               this.jdateValues[modelKey] = newValue
               edited = true
             }
-            // 在 slotValues 中寻找值
-            if (!edited && this.slotValues.hasOwnProperty(modelKey)) {
-              this.slotValues[modelKey] = newValue
-              edited = true
+            // upload 在 .ant-upload .ant-btn 上设置 border-color
+            if (column.type === FormTypes.upload || column.type === FormTypes.file || column.type === FormTypes.image) {
+              element = element.getElementsByClassName('ant-upload')[0].getElementsByClassName('ant-btn')[0]
+            }
+            element.style.borderColor = borderColor
+            element.style.boxShadow = boxShadow
+            if (element.tagName === 'SPAN') {
+              element.style.display = 'block'
             }
           }
         }
@@ -1609,34 +1783,10 @@ export default {
       this.forceUpdateFormValues()
     },
 
-    /** 跳转到指定位置 */
-    // jumpToId(id, element) {
-    //   if (element == null) {
-    //     element = document.getElementById(id)
-    //   }
-    //   if (element != null) {
-    //     console.log(this.el.tbody.scrollTop, element.offsetTop)
-    //     this.el.tbody.scrollTop = element.offsetTop
-    //     console.log(this.el.tbody.scrollTop, element.offsetTop)
-    //   }
-    // },
+          if (typeof callback === 'function') {
+            callback([tooltips[inputId], notPassedIds])
+          }
 
-    /** 验证单个表单 */
-    validateOneInput(value, row, column, notPassedIds, update = false, validType = 'input') {
-      let tooltips = Object.assign({}, this.tooltips)
-      // let notPassedIds = cloneObject(this.notPassedIds)
-      let inputId = column.key + row.id
-      tooltips[inputId] = tooltips[inputId] ? tooltips[inputId] : {}
-
-      let [passed, message] = this.validateValue(column, value)
-
-      const nextThen = res => {
-        let [passed, message] = res
-        if (passed == null) {
-          // debugger
-        }
-        if (passed == null && tooltips[inputId].visible != null) {
-          return
         }
         passed = passed == null ? true : passed
         tooltips[inputId].visible = !passed
@@ -1694,68 +1844,92 @@ export default {
             } else {
               nextThen([false, message])
             }
-          },
-          this
-        )
-      } else {
-        nextThen([passed, message])
-      }
+          }, this)
+        } else {
+          nextThen([passed, message])
+        }
 
-      return [tooltips[inputId], notPassedIds]
-    },
-    /** 通过规则验证值是否正确 */
-    validateValue(column, value) {
-      let rules = column.validateRules
-      let passed = true,
-        message = ''
-      // 判断有没有验证规则或验证规则格式正不正确，若条件不符合则默认通过
-      if (rules instanceof Array) {
-        for (let rule of rules) {
-          // 当前值是否为空
-          let isNull = value == null || value === ''
-          // 验证规则：非空
-          if (rule.required === true && isNull) {
-            passed = false
-          } // 使用 else-if 是为了防止一个 rule 中出现两个规则
-          // 验证规则：唯一校验
-          else if (rule.unique === true || rule.pattern === 'only') {
-            let { values } = this.getValuesSync({ validate: false })
-            let findCount = 0
-            for (let val of values) {
-              if (val[column.key] === value) {
-                if (++findCount >= 2) {
-                  passed = false
+        return [tooltips[inputId], notPassedIds]
+      },
+
+      /** 验证单个表单 */
+      validateOneInput(value, row, column, notPassedIds, update = false, validType = 'input') {
+        return this.validateOneInputAsync(value, row, column, notPassedIds, update, validType)
+      },
+      /** 通过规则验证值是否正确 */
+      validateValue(column, value) {
+        let rules = column.validateRules
+        let passed = true, message = ''
+        // 判断有没有验证规则或验证规则格式正不正确，若条件不符合则默认通过
+        if (rules instanceof Array) {
+          for (let rule of rules) {
+            // 当前值是否为空
+            let isNull = (value == null || value === '')
+            // 验证规则：非空
+            if (rule.required === true && isNull) {
+              passed = false
+            } else // 使用 else-if 是为了防止一个 rule 中出现两个规则
+            // 验证规则：唯一校验
+            if (rule.unique === true || rule.pattern === 'only') {
+              let { values } = this.getValuesSync({ validate: false })
+              let findCount = 0
+              for (let val of values) {
+                if (val[column.key] === value) {
+                  if (++findCount >= 2) {
+                    passed = false
+                    break
+                  }
+                }
+              }
+            } else
+            // 验证规则：正则表达式
+            if (!!rule.pattern && !isNull) {
+
+              // 兼容 online 的规则
+              let foo = [
+                { title: '6到16位数字', value: 'n6-16', pattern: /\d{6,18}/ },
+                { title: '6到16位任意字符', value: '*6-16', pattern: /^.{6,16}$/ },
+                { title: '网址', value: 'url', pattern: /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/ },
+                { title: '电子邮件', value: 'e', pattern: /^([\w]+\.*)([\w]+)@[\w]+\.\w{3}(\.\w{2}|)$/ },
+                { title: '手机号码', value: 'm', pattern: /^1[3456789]\d{9}$/ },
+                { title: '邮政编码', value: 'p', pattern: /^[1-9]\d{5}$/ },
+                { title: '字母', value: 's', pattern: /^[A-Z|a-z]+$/ },
+                { title: '数字', value: 'n', pattern: /^-?\d+\.?\d*$/ },
+                { title: '整数', value: 'z', pattern: /^-?\d+$/ },
+                { title: '非空', value: '*', pattern: /^.+$/ },
+                { title: '6到18位字符串', value: 's6-18', pattern: /^.{6,18}$/ },
+                { title: '金额', value: 'money', pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/ },
+              ]
+              let flag = false
+              for (let item of foo) {
+                if (rule.pattern === item.value && item.pattern) {
+                  passed = new RegExp(item.pattern).test(value)
+                  flag = true
                   break
                 }
               }
             }
           }
-          // 验证规则：正则表达式
-          else if (!!rule.pattern && !isNull) {
-            // 兼容 online 的规则
-            let foo = [
-              { title: '6到16位数字', value: 'n6-16', pattern: /\d{6,18}/ },
-              { title: '6到16位任意字符', value: '*6-16', pattern: /^.{6,16}$/ },
-              {
-                title: '网址',
-                value: 'url',
-                pattern: /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/
-              },
-              { title: '电子邮件', value: 'e', pattern: /^([\w]+\.*)([\w]+)@[\w]+\.\w{3}(\.\w{2}|)$/ },
-              { title: '手机号码', value: 'm', pattern: /^1[3456789]\d{9}$/ },
-              { title: '邮政编码', value: 'p', pattern: /^[1-9]\d{5}$/ },
-              { title: '字母', value: 's', pattern: /^[A-Z|a-z]+$/ },
-              { title: '数字', value: 'n', pattern: /^-?\d+\.?\d*$/ },
-              { title: '整数', value: 'z', pattern: /^-?\d+$/ },
-              { title: '非空', value: '*', pattern: /^.+$/ },
-              { title: '6到18位字符串', value: 's6-18', pattern: /^.{6,18}$/ },
-              { title: '金额', value: 'money', pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/ }
-            ]
-            let flag = false
-            for (let item of foo) {
-              if (rule.pattern === item.value && item.pattern) {
-                passed = new RegExp(item.pattern).test(value)
-                flag = true
+        }
+        return [passed, message]
+      },
+
+      /** 动态更新表单的值 */
+      updateFormValues() {
+        let trs = this.getElement('tbody').getElementsByClassName('tr')
+        let trEls = []
+        for (let tr of trs) {
+          trEls.push(tr)
+        }
+        // 获取新增的 tr
+        let newTrEls = trEls
+        if (this.visibleTrEls.length > 0) {
+          newTrEls = []
+          for (let tr of trEls) {
+            let isNewest = true
+            for (let vtr of this.visibleTrEls) {
+              if (vtr.id === tr.id) {
+                isNewest = false
                 break
               }
             }
@@ -2113,30 +2287,14 @@ export default {
       return remove ? remove : id
     },
 
-    handleClickDelFile(id) {
-      this.uploadValues[id] = null
-    },
-    handleClickDownloadFile(id) {
-      let { path } = this.uploadValues[id] || {}
-      if (path) {
-        let url = window._CONFIG['downloadUrl'] + '/' + path
-        window.open(url)
-      }
-    },
-    /** 加载数据字典并合并到 options */
-    _loadDictConcatToOptions(column) {
-      initDictOptions(column.dictCode).then(res => {
-        if (res.success) {
-          let newOptions = column.options || [] // .concat(res.result)
-          res.result.forEach(item => {
-            for (let option of newOptions) if (option.value === item.value) return
-            newOptions.push(item)
-          })
-          column.options = newOptions
-        } else {
-          console.group(`JEditableTable 查询字典(${column.dictCode})发生异常`)
-          console.log(res.message)
-          console.groupEnd()
+      handleClickDelFile(id) {
+        this.uploadValues[id] = null
+      },
+      handleClickDownloadFile(id) {
+        let { path } = this.uploadValues[id] || {}
+        if (path) {
+          let url = window._CONFIG['staticDomainURL'] + '/' + path
+          window.open(url)
         }
       })
     },
@@ -2269,45 +2427,29 @@ export default {
         props['disabled'] = true
       }
 
-      return props
-    },
-    /** upload 辅助方法：获取 headers */
-    uploadGetHeaders(row, column) {
-      let headers = {}
-      if (column.token === true) {
-        headers['X-Access-Token'] = this.accessToken
-      }
-      return headers
-    },
-    /** 上传请求地址 */
-    getUploadAction(value) {
-      if (!value) {
-        return window._CONFIG['domianURL'] + '/sys/common/upload'
-      } else {
-        return value
-      }
-    },
-    /** 预览图片地址 */
-    getCellImageView(id) {
-      let currUploadObj = this.uploadValues[id] || null
-      if (currUploadObj && currUploadObj['path']) {
-        return window._CONFIG['domianURL'] + '/sys/common/view/' + currUploadObj['path']
-      } else {
-        return ''
-      }
-    },
-    /** 猜测文件类型 */
-    guessType(id) {
-      let currUploadObj = this.uploadValues[id] || null
-      if (currUploadObj && currUploadObj['path']) {
-        const extension = currUploadObj['path'].substring(currUploadObj['path'].lastIndexOf('.') + 1)
-        console.info(`file id ${id} extension is ${extension}`)
-        if (/jpg|jpeg|png|gif/.test(extension)) {
-          return 'image'
-        } else if (/mp3/.test(extension)) {
-          return 'audio'
-        } else if (/mp4|avi/.test(extension)) {
-          return 'video'
+        return props
+      },
+      /** upload 辅助方法：获取 headers */
+      uploadGetHeaders(row, column) {
+        let headers = {}
+        if (column.token === true) {
+          headers['X-Access-Token'] = this.accessToken
+        }
+        return headers
+      },
+      /** 上传请求地址 */
+      getUploadAction(value) {
+        if (!value) {
+          return window._CONFIG['domianURL'] + '/sys/common/upload'
+        } else {
+          return value
+        }
+      },
+      /** 预览图片地址 */
+      getCellImageView(id) {
+        let currUploadObj = this.uploadValues[id] || null
+        if (currUploadObj && currUploadObj['path']) {
+          return window._CONFIG['staticDomainURL'] + '/' + currUploadObj['path']
         } else {
           return 'file'
         }
@@ -2524,18 +2666,14 @@ export default {
         margin: 0;
         list-style: none;
         position: relative;
-        display: inline-block;
-        padding: 4px 11px;
-        width: 100%;
-        height: 32px;
-        font-size: 14px;
-        line-height: 1.5;
-        color: rgba(0, 0, 0, 0.65);
-        background-color: #fff;
-        border: 1px solid #d9d9d9;
-        border-radius: 4px;
-        transition: all 0.3s;
-        outline: none;
+        z-index: 9;
+        background-color: white;
+      }
+
+      .td {
+        /*flex: 1;*/
+        padding: 14px @spacing 14px 0;
+        justify-content: center;
 
         &:hover {
           border-color: #4d90fe;

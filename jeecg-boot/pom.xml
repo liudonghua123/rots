@@ -363,6 +363,16 @@
 				<artifactId>jeecg-boot-base-common</artifactId>
 				<version>${jeecgboot.common.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.jeecgframework.boot</groupId>
+				<artifactId>jeecg-boot-module-system</artifactId>
+				<version>${jeecgboot.common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jeecgframework.boot</groupId>
+				<artifactId>jeecg-boot-module-whba</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
 			<!-- ��ţ��SDK -->
 			<dependency>
 				<groupId>com.qiniu</groupId>

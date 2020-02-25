@@ -86,9 +86,9 @@
               <!-- tr 只加载可见的和预加载的总共十条数据 -->
               <div
                 v-if="
-                rowIndex >= parseInt(`${(scrollTop-rowHeight) / rowHeight}`) &&
-                  (parseInt(`${scrollTop / rowHeight}`) + 9) > rowIndex
-              "
+                  rowIndex >= parseInt(`${(scrollTop-rowHeight) / rowHeight}`) &&
+                    (parseInt(`${scrollTop / rowHeight}`) + 9) > rowIndex
+                "
                 :id="`${caseId}tbody-tr-${rowIndex}`"
                 :data-idx="rowIndex"
                 class="tr"
@@ -183,30 +183,30 @@
                         :getPopupContainer="getParentContainer"
                       >
 
-                      <span
-                        @mouseover="()=>{handleMouseoverCommono(row,col)}"
-                        @mouseout="()=>{handleMouseoutCommono(row,col)}">
+                        <span
+                          @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                          @mouseout="()=>{handleMouseoutCommono(row,col)}">
 
-                        <a-select
-                          :id="id"
-                          :key="i"
-                          v-bind="buildProps(row,col)"
-                          style="width: 100%;"
-                          :value="selectValues[id]"
-                          :options="col.options"
-                          :getPopupContainer="getParentContainer"
-                          :placeholder="replaceProps(col, col.placeholder)"
-                          :filterOption="(i,o)=>handleSelectFilterOption(i,o,col)"
-                          @change="(v)=>handleChangeSelectCommon(v,id,row,col)"
-                          @search="(v)=>handleSearchSelect(v,id,row,col)"
-                          @blur="(v)=>handleBlurSearch(v,id,row,col)"
-                        >
+                          <a-select
+                            :id="id"
+                            :key="i"
+                            v-bind="buildProps(row,col)"
+                            style="width: 100%;"
+                            :value="selectValues[id]"
+                            :options="col.options"
+                            :getPopupContainer="getParentContainer"
+                            :placeholder="replaceProps(col, col.placeholder)"
+                            :filterOption="(i,o)=>handleSelectFilterOption(i,o,col)"
+                            @change="(v)=>handleChangeSelectCommon(v,id,row,col)"
+                            @search="(v)=>handleSearchSelect(v,id,row,col)"
+                            @blur="(v)=>handleBlurSearch(v,id,row,col)"
+                          >
 
                           <!--<template v-for="(opt,optKey) in col.options">-->
                           <!--<a-select-option :value="opt.value" :key="optKey">{{ opt.title }}</a-select-option>-->
                           <!--</template>-->
-                        </a-select>
-                      </span>
+                          </a-select>
+                        </span>
                       </a-tooltip>
                     </template>
                     <!-- date -->
@@ -221,24 +221,24 @@
                         :getPopupContainer="getParentContainer"
                       >
 
-                      <span
-                        @mouseover="()=>{handleMouseoverCommono(row,col)}"
-                        @mouseout="()=>{handleMouseoutCommono(row,col)}">
+                        <span
+                          @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                          @mouseout="()=>{handleMouseoutCommono(row,col)}">
 
-                        <j-date
-                          :id="id"
-                          :key="i"
-                          v-bind="buildProps(row,col)"
-                          style="width: 100%;"
-                          :value="jdateValues[id]"
-                          :getCalendarContainer="getParentContainer"
-                          :placeholder="replaceProps(col, col.placeholder)"
-                          :trigger-change="true"
-                          :showTime="col.type === formTypes.datetime"
-                          :dateFormat="col.type === formTypes.date? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss'"
-                          @change="(v)=>handleChangeJDateCommon(v,id,row,col,col.type === formTypes.datetime)"/>
+                          <j-date
+                            :id="id"
+                            :key="i"
+                            v-bind="buildProps(row,col)"
+                            style="width: 100%;"
+                            :value="jdateValues[id]"
+                            :getCalendarContainer="getParentContainer"
+                            :placeholder="replaceProps(col, col.placeholder)"
+                            :trigger-change="true"
+                            :showTime="col.type === formTypes.datetime"
+                            :dateFormat="col.type === formTypes.date? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss'"
+                            @change="(v)=>handleChangeJDateCommon(v,id,row,col,col.type === formTypes.datetime)"/>
 
-                      </span>
+                        </span>
                       </a-tooltip>
                     </template>
 
@@ -477,6 +477,104 @@
                     </div>
                     <!-- update-end-author:taoyan date:0827 for：图片逻辑新增 -->
 
+                    <div v-else-if="col.type === formTypes.multimedia" :key="i">
+                      <template
+                        v-if="uploadValues[id] != null"
+                        v-for="(file,fileKey) of [(uploadValues[id]||{})]"
+                      >
+                        <div :key="fileKey" style="position: relative;">
+                          <a
+                            v-if="guessType(id) === 'image'"
+                            @click="modalVisible=true,type='image',url=getCellImageView(id)"
+                            style="font-size: 1.5em;">
+                            🖼️
+                            <img
+                              :src="getCellImageView(id)"
+                              alt="图片"
+                              style="display: none;"
+                            />
+                          </a>
+                          <a 
+                            v-else-if="guessType(id) === 'audio'"
+                            @click="modalVisible=true,type='audio',url=getCellImageView(id)"
+                            style="font-size: 1.5em;">
+                            🎧<audio
+                              :src="getCellImageView(id)"
+                              alt="音频"
+                              style="display: none;"
+                            />
+                          </a>
+                          <a
+                            @click="modalVisible=true,type='video',url=getCellImageView(id)"
+                            v-else-if="guessType(id) === 'video'"
+                            style="font-size: 1.5em;">
+                            🎞️<video
+                              :src="getCellImageView(id)"
+                              alt="视频"
+                              style="display: none;"
+                            />
+                          </a>
+                          <a
+                            v-else
+                            :href="getCellImageView(id)"
+                            style="font-size: 1.5em;"
+                            alt="文件"
+                          >📁</a>
+
+                          <template slot="addonBefore" style="width: 30px">
+                            <a-tooltip v-if="file.status==='uploading'" :title="`上传中(${Math.floor(file.percent)}%)`">
+                              <a-icon type="loading"/>
+                            </a-tooltip>
+                            <a-tooltip v-else-if="file.status==='done'" title="上传完成">
+                              <a-icon type="check-circle" style="color:#00DB00;"/>
+                            </a-tooltip>
+                            <a-tooltip v-else title="上传失败">
+                              <a-icon type="exclamation-circle" style="color:red;"/>
+                            </a-tooltip>
+                          </template>
+
+                          <template style="width: 30px">
+                            <a-tooltip title="删除并重新上传" style="margin-left:5px">
+                              <a-icon
+                                v-if="file.status!=='uploading'"
+                                type="close-circle"
+                                style="cursor: pointer;"
+                                @click="()=>handleClickDelFile(id)"/>
+                            </a-tooltip>
+                          </template>
+                        </div>
+                      </template>
+                      
+                      <div :hidden="uploadValues[id] != null">
+                        <a-tooltip
+                          :key="i"
+                          :id="id"
+                          placement="top"
+                          :title="(tooltips[id] || {}).title"
+                          :visible="(tooltips[id] || {}).visible || false"
+                          :autoAdjustOverflow="true"
+                          :getPopupContainer="getParentContainer"
+                        >
+
+                          <span
+                            @mouseover="()=>{handleMouseoverCommono(row,col)}"
+                            @mouseout="()=>{handleMouseoutCommono(row,col)}">
+                            <a-upload
+                              name="file"
+                              :data="{'isup':1}"
+                              :multiple="false"
+                              :action="getUploadAction(col.action)"
+                              :headers="uploadGetHeaders(row,col)"
+                              :showUploadList="false"
+                              v-bind="buildProps(row,col)"
+                              @change="(v)=>handleChangeUpload(v,id,row,col)"
+                            >
+                              <a-button icon="upload">请上传多媒体</a-button>
+                            </a-upload>
+                          </span>
+                        </a-tooltip>
+                      </div>
+                    </div>
 
                     <!-- radio-begin -->
                     <template v-else-if="col.type === formTypes.radio">
@@ -593,20 +691,20 @@
                         <span
                           @mouseover="()=>{handleMouseoverCommono(row,col)}"
                           @mouseout="()=>{handleMouseoutCommono(row,col)}">
-                            <slot
-                              :name="(col.slot || col.slotName) || col.key"
-                              :index="rowIndex"
-                              :text="slotValues[id]"
-                              :value="slotValues[id]"
-                              :column="col"
-                              :rowId="removeCaseId(row.id)"
-                              :getValue="()=>_getValueForSlot(row.id)"
-                              :caseId="caseId"
-                              :allValues="_getAllValuesForSlot()"
-                              :target="getVM()"
-                              :handleChange="(v)=>handleChangeSlotCommon(v,id,row,col)"
-                              :isNotPass="notPassedIds.includes(col.key+row.id)"
-                            />
+                          <slot
+                            :name="(col.slot || col.slotName) || col.key"
+                            :index="rowIndex"
+                            :text="slotValues[id]"
+                            :value="slotValues[id]"
+                            :column="col"
+                            :rowId="removeCaseId(row.id)"
+                            :getValue="()=>_getValueForSlot(row.id)"
+                            :caseId="caseId"
+                            :allValues="_getAllValuesForSlot()"
+                            :target="getVM()"
+                            :handleChange="(v)=>handleChangeSlotCommon(v,id,row,col)"
+                            :isNotPass="notPassedIds.includes(col.key+row.id)"
+                          />
                         </span>
                       </a-tooltip>
                     </div>
@@ -621,6 +719,36 @@
             </template>
           </draggable>
 
+          <a-modal title="MultiMedia" v-model="modalVisible" @ok="modalVisible=false" :afterClose="() => { $refs.audio && $refs.audio.pause(); $refs.video && $refs.video.pause(); }">
+            <div>
+              <img
+                v-if="type==='image'"
+                :src="url"
+                ref="image"
+                style="width:100%; max-height:300px;"
+                alt="图片"
+              />
+              <audio
+                controls
+                v-if="type==='audio'"
+                :src="url"
+                ref="audio"
+                style="width:100%; max-height:300px;"
+                alt="音频"
+              />
+              <video
+                controls
+                v-if="type==='video'"
+                :src="url"
+                ref="video"
+                style="width:100%; max-height:300px;"
+                alt="视频"
+              />
+            </div>
+            <template slot="footer">
+              <a-button key="submit" type="primary" @click="modalVisible=false">OK</a-button>
+            </template>
+          </a-modal>
         </div>
       </div>
     </div>
@@ -751,7 +879,10 @@
         // 存储显示tooltip的信息
         tooltips: {},
         // 存储没有通过验证的inputId
-        notPassedIds: []
+        notPassedIds: [],
+        modalVisible: false,
+        url: '',
+        type: ''
       }
     },
     created() {
@@ -904,7 +1035,7 @@
                   } else {
                     multiSelectValues[inputId] = []
                   }
-                } else if (column.type === FormTypes.upload || column.type === FormTypes.file || column.type === FormTypes.image) {
+                } else if (column.type === FormTypes.upload || column.type === FormTypes.file || column.type === FormTypes.image || column.type === FormTypes.multimedia) {
                   if (sourceValue) {
                     let fileName = sourceValue.substring(sourceValue.lastIndexOf('/') + 1)
                     uploadValues[inputId] = {
@@ -1381,7 +1512,7 @@
             } else if (column.type === FormTypes.upload) {
               value[column.key] = cloneObject(this.uploadValues[inputId] || null)
 
-            } else if (column.type === FormTypes.image || column.type === FormTypes.file) {
+            } else if (column.type === FormTypes.image || column.type === FormTypes.file || column.type === FormTypes.multimedia) {
               let currUploadObj = cloneObject(this.uploadValues[inputId] || null)
               if (currUploadObj) {
                 value[column.key] = currUploadObj['path'] || null
@@ -1632,7 +1763,7 @@
               element = element.getElementsByTagName('input')[0]
             }
             // upload 在 .ant-upload .ant-btn 上设置 border-color
-            if (column.type === FormTypes.upload || column.type === FormTypes.file || column.type === FormTypes.image) {
+            if (column.type === FormTypes.upload || column.type === FormTypes.file || column.type === FormTypes.image || column.type === FormTypes.multimedia) {
               element = element.getElementsByClassName('ant-upload')[0].getElementsByClassName('ant-btn')[0]
             }
             element.style.borderColor = borderColor
@@ -2037,6 +2168,7 @@
         if (file.status == 'done') {
           value['path'] = file.response[column.responseName]
         }
+        console.info(`handleChangeUpload--------------`)
         this.uploadValues = this.bindValuesChange(value, id, 'uploadValues')
       },
       /** 记录用到数据绑定的组件的值 */
@@ -2261,6 +2393,25 @@
           return window._CONFIG['staticDomainURL'] + '/' + currUploadObj['path']
         } else {
           return ''
+        }
+      },
+      /** 猜测文件类型 */
+      guessType(id) {
+        let currUploadObj = this.uploadValues[id] || null
+        if (currUploadObj && currUploadObj['path']) {
+          const extension = currUploadObj['path'].substring(currUploadObj['path'].lastIndexOf('.') + 1)
+          console.info(`file id ${id} extension is ${extension}`)
+          if (/jpg|jpeg|png|gif/.test(extension)) {
+            return 'image'
+          } else if (/mp3/.test(extension)) {
+            return 'audio'
+          } else if (/mp4|avi/.test(extension)) {
+            return 'video'
+          } else {
+            return 'file'
+          }
+        } else {
+          return 'file'
         }
       },
       /** popup回调 */

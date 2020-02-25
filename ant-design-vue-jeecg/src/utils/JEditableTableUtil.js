@@ -9,6 +9,7 @@ const FormTypes = {
   upload: 'upload',
   file: 'file',
   image: 'image',
+  multimedia: 'multimedia',
   popup:'popup',
   list_multi:"list_multi",
   sel_search:"sel_search",

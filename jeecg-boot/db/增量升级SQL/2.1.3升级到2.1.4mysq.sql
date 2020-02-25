@@ -28,9 +28,9 @@ INSERT INTO `sys_dict_item` (`id`, `dict_id`, `item_text`, `item_value`, `descri
 
 
 -- 生产销售监控 --
-update sys_permission set url='{{ window._CONFIG[\'domianURL\'] }}/big/screen/templat/index1' where id='1205098241075453953';
+update sys_permission set url='{{ window._CONFIG[''domianURL''] }}/big/screen/templat/index1' where id='1205098241075453953';
 -- 智慧物流监控 --
-update sys_permission set url='{{ window._CONFIG[\'domianURL\'] }}/big/screen/templat/index2' where id='1205306106780364802';
+update sys_permission set url='{{ window._CONFIG[''domianURL''] }}/big/screen/templat/index2' where id='1205306106780364802';
 
 
 

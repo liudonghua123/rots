@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Description: 线索附件
  * @Author: jeecg-boot
- * @Date:   2020-02-11
+ * @Date:   2020-02-26
  * @Version: V1.0
  */
 public interface IQbSwxszbfjService extends IService<QbSwxszbfj> {

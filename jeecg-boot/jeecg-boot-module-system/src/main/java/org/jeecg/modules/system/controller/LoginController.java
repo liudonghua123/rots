@@ -101,6 +101,31 @@ public class LoginController {
 		return result;
 	}
 	
+	@ApiOperation("登录接口")
+	@RequestMapping(value = "/simpleLogin", method = RequestMethod.POST)
+	public Result<JSONObject> simpleLogin(@RequestBody SysLoginModel sysLoginModel){
+		Result<JSONObject> result = new Result<JSONObject>();
+		String username = sysLoginModel.getUsername();
+		String password = sysLoginModel.getPassword();
+		//1. 校验用户是否有效
+		SysUser sysUser = sysUserService.getUserByName(username);
+		result = sysUserService.checkUserIsEffective(sysUser);
+		if(!result.isSuccess()) {
+			return result;
+		}
+		//2. 校验用户名或密码是否正确
+		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
+		String syspassword = sysUser.getPassword();
+		if (!syspassword.equals(userpassword)) {
+			result.error500("用户名或密码错误");
+			return result;
+		}
+		//用户登录信息
+		userInfo(sysUser, result);
+		sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
+		return result;
+	}
+	
 	/**
 	 * 退出登录
 	 * @param request

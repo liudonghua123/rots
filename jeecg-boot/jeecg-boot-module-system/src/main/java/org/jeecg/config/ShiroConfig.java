@@ -73,6 +73,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/sys/getCheckCode", "anon"); //登录验证码接口排除
 		filterChainDefinitionMap.put("/sys/randomImage/**", "anon"); //登录验证码接口排除
 		filterChainDefinitionMap.put("/sys/login", "anon"); //登录接口排除
+		filterChainDefinitionMap.put("/sys/simpleLogin", "anon"); //登录接口排除
 		filterChainDefinitionMap.put("/sys/mLogin", "anon"); //登录接口排除
 		filterChainDefinitionMap.put("/sys/logout", "anon"); //登出接口排除
 		filterChainDefinitionMap.put("/sys/getEncryptedString", "anon"); //获取加密串

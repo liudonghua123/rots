@@ -34,7 +34,7 @@ public class QbSwxszbServiceImpl extends ServiceImpl<QbSwxszbMapper, QbSwxszb> i
 		if(qbSwxszbfjList!=null && qbSwxszbfjList.size()>0) {
 			for(QbSwxszbfj entity:qbSwxszbfjList) {
 				//外键设置
-				entity.setSwxsbh(qbSwxszb.getSwxsbh());
+				entity.setSwxsbh(qbSwxszb.getId());
 				qbSwxszbfjMapper.insert(entity);
 			}
 		}
@@ -52,7 +52,7 @@ public class QbSwxszbServiceImpl extends ServiceImpl<QbSwxszbMapper, QbSwxszb> i
 		if(qbSwxszbfjList!=null && qbSwxszbfjList.size()>0) {
 			for(QbSwxszbfj entity:qbSwxszbfjList) {
 				//外键设置
-				entity.setSwxsbh(qbSwxszb.getSwxsbh());
+				entity.setSwxsbh(qbSwxszb.getId());
 				qbSwxszbfjMapper.insert(entity);
 			}
 		}

@@ -10,9 +10,8 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button @click="handleAccept" type="primary" icon="download">签收</a-button>
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('任务流转')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('涉稳情报信息')">导出</a-button>
       <a-upload
         name="file"
         :showUploadList="false"
@@ -102,25 +101,23 @@
       </a-table>
     </div>
 
-    <qbRwlz-modal ref="modalForm" @ok="modalFormOk"></qbRwlz-modal>
+    <qbZdasjqbxx-modal ref="modalForm" @ok="modalFormOk"></qbZdasjqbxx-modal>
   </a-card>
 </template>
 
 <script>
-import { httpAction } from '@/api/manage'
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-import QbRwlzModal from './modules/QbRwlzModal'
-import { filterMultiDictText } from '@/components/dict/JDictSelectUtil'
+import QbZdasjqbxxModal from './modules/QbZdasjqbxxModal'
 
 export default {
-  name: 'QbRwlzList',
+  name: 'QbZdasjqbxxList',
   mixins: [JeecgListMixin],
   components: {
-    QbRwlzModal
+    QbZdasjqbxxModal
   },
   data() {
     return {
-      description: '任务流转管理页面',
+      description: '涉稳情报信息管理页面',
       // 表头
       columns: [
         {
@@ -134,134 +131,58 @@ export default {
           }
         },
         {
-          title: '流程类别',
+          title: '表现形式',
           align: 'center',
-          dataIndex: 'lclb'
+          dataIndex: 'bxxslx1'
         },
         {
-          title: '任务类别',
+          title: '信息种类',
           align: 'center',
-          dataIndex: 'rwlb'
+          dataIndex: 'bxxslx3'
         },
         {
-          title: '信息源编号',
+          title: '变形形式5',
           align: 'center',
-          dataIndex: 'ybh'
+          dataIndex: 'bxxslx5'
         },
         {
-          title: '发起人编号',
+          title: '上报时间',
           align: 'center',
-          dataIndex: 'fqrbh'
-        },
-        {
-          title: '目标信息类型',
-          align: 'center',
-          dataIndex: 'mblx'
-        },
-        {
-          title: '目标编号',
-          align: 'center',
-          dataIndex: 'mbbh'
-        },
-        {
-          title: '任务状态',
-          align: 'center',
-          dataIndex: 'rwzt'
-        },
-        {
-          title: '接收人编号',
-          align: 'center',
-          dataIndex: 'jsrbh'
-        },
-        {
-          title: '接收时间',
-          align: 'center',
-          dataIndex: 'jssj',
+          dataIndex: 'sbsj',
           customRender: function(text) {
             return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
           }
         },
         {
-          title: '处理意见',
+          title: '标题',
           align: 'center',
-          dataIndex: 'clyj'
-        },
-        {
-          title: '处理结果',
-          align: 'center',
-          dataIndex: 'cljg'
-        },
-        {
-          title: '发起部门编号',
-          align: 'center',
-          dataIndex: 'fqbmbh'
-        },
-        {
-          title: '目标部门编号',
-          align: 'center',
-          dataIndex: 'mbbmbh'
-        },
-        {
-          title: '办结时间',
-          align: 'center',
-          dataIndex: 'bjsj',
-          customRender: function(text) {
-            return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
-          }
+          dataIndex: 'bt'
         },
         {
           title: '发起时间',
           align: 'center',
-          dataIndex: 'fqsj',
+          dataIndex: 'fssj',
           customRender: function(text) {
             return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
           }
         },
         {
-          title: '任务标题',
+          title: '离开时间',
           align: 'center',
-          dataIndex: 'rwbt'
-        },
-        {
-          title: '已归档入库（暂时未用到）',
-          align: 'center',
-          dataIndex: 'ygdrk'
-        },
-        {
-          title: '发送意见',
-          align: 'center',
-          dataIndex: 'fsyj'
-        },
-        {
-          title: '流转方式（信息流转：XXLZ，人员采集指令：RYCJZL，线索采集指令:XSCJZL）',
-          align: 'center',
-          dataIndex: 'lzfs'
-        },
-        {
-          title: '反馈截止时间',
-          align: 'center',
-          dataIndex: 'fkjzsj',
+          dataIndex: 'lksj',
           customRender: function(text) {
             return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
           }
         },
         {
-          title: '反馈说明',
+          title: '持续时间',
           align: 'center',
-          dataIndex: 'fksm'
+          dataIndex: 'cxsj'
         },
         {
-          title: '实际反馈时间',
+          title: '总人数',
           align: 'center',
-          dataIndex: 'sjfksj',
-          customRender: function(text) {
-            return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
-          }
-        },
-        {
-          title: '发起参数',
-          align: 'center',
-          dataIndex: 'fqcs'
+          dataIndex: 'zrs'
         },
         {
           title: '操作',
@@ -271,12 +192,11 @@ export default {
         }
       ],
       url: {
-        list: '/xs/qbRwlz/list',
-        delete: '/xs/qbRwlz/delete',
-        deleteBatch: '/xs/qbRwlz/deleteBatch',
-        exportXlsUrl: '/xs/qbRwlz/exportXls',
-        importExcelUrl: 'xs/qbRwlz/importExcel'
-        //accept: '/xs/qbRwlz/accept'
+        list: '/xs/qbZdasjqbxx/list',
+        delete: '/xs/qbZdasjqbxx/delete',
+        deleteBatch: '/xs/qbZdasjqbxx/deleteBatch',
+        exportXlsUrl: '/xs/qbZdasjqbxx/exportXls',
+        importExcelUrl: 'xs/qbZdasjqbxx/importExcel'
       },
       dictOptions: {}
     }
@@ -287,27 +207,7 @@ export default {
     }
   },
   methods: {
-    initDictConfig() {},
-    handleAccept: function() {
-      const that = this
-      let httpurl = '/xs/qbRwlz/accept'
-      let method = 'post'
-      let formData = {} //Object.assign(this.model, values)
-      console.log('表单提交数据', formData)
-      httpAction(httpurl, formData, method)
-        .then(res => {
-          if (res.success) {
-            that.$message.success(res.message)
-            that.$emit('ok')
-          } else {
-            that.$message.warning(res.message)
-          }
-        })
-        .finally(() => {
-          that.confirmLoading = false
-          that.close()
-        })
-    }
+    initDictConfig() {}
   }
 }
 </script>

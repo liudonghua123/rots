@@ -292,7 +292,7 @@ export default {
       const that = this
       let httpurl = '/xs/qbRwlz/accept'
       let method = 'post'
-      let formData = {} //Object.assign(this.model, values)
+      let formData = { acceptALL: 'Y' } //Object.assign(this.model, values)
       console.log('表单提交数据', formData)
       httpAction(httpurl, formData, method)
         .then(res => {

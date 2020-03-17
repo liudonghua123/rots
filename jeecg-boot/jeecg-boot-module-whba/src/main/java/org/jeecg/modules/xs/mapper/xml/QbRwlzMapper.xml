@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.xs.mapper.QbRwlzMapper">
-
+  <select id="queryByIds" resultType="org.jeecg.modules.xs.mapper.QbRwlzMapper">
+		select  * from qb_rwlz where id in
+    <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+			#{id}
+    </foreach>
+  </select>
 </mapper>

@@ -292,9 +292,9 @@ export default {
       const that = this
       let httpurl = '/xs/qbRwlz/accept'
       let method = 'post'
-      let formData = { acceptALL: 'Y' } //Object.assign(this.model, values)
-      console.log('表单提交数据', formData)
-      httpAction(httpurl, formData, method)
+      let queryParams = { acceptALL: 'Y' } //Object.assign(this.model, values)
+      console.log('表单提交数据', queryParams)
+      httpAction(httpurl, null, method, queryParams)
         .then(res => {
           if (res.success) {
             that.$message.success(res.message)

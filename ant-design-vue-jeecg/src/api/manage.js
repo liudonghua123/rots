@@ -20,11 +20,12 @@ export function postAction(url,parameter) {
 }
 
 //post method= {post | put}
-export function httpAction(url,parameter,method) {
+export function httpAction(url,data,method,params) {
   return axios({
-    url: url,
-    method:method ,
-    data: parameter
+    url,
+    method ,
+    data,
+    params,
   })
 }
 

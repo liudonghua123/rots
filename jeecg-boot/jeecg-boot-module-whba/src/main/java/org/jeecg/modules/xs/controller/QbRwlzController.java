@@ -16,6 +16,8 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.vo.LoginUser;
+import org.jeecg.modules.system.entity.SysDepart;
+import org.jeecg.modules.system.service.ISysDepartService;
 import org.jeecg.modules.xs.entity.QbRwlz;
 import org.jeecg.modules.xs.entity.QbZdasjqbxx;
 import org.jeecg.modules.xs.service.IQbRwlzService;
@@ -51,6 +53,9 @@ import lombok.extern.slf4j.Slf4j;
 public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 	@Autowired
 	private IQbRwlzService qbRwlzService;
+
+	@Autowired
+	private ISysDepartService sysDepartService;
 
 	@Autowired
 	private IQbZdasjqbxxService qbZdasjqbxxService;
@@ -191,6 +196,9 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 		}
 
 		if (rws != null && rws.size() > 0) {
+
+			SysDepart dept = findDepart(user.getOrgCode());
+
 			// Timestamp tsp = new Timestamp(System.currentTimeMillis());
 			Date tsp = new Date();
 			for (QbRwlz rw : rws) {
@@ -213,7 +221,7 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 						newQbxx.setXxffbj(QbConstants.SF_EN_STR_FOU);
 						newQbxx.setXxlylb(QbConstants.XXLYLB_STR_SJZL);
 
-						fillNPQbxxUserInfo(newQbxx, rw, user);
+						fillNPQbxxUserInfo(newQbxx, rw, user, dept);
 					}
 					rw.setRwzt(QbConstants.RWZT_STR_BLZ);
 				} else {
@@ -235,7 +243,7 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 									newQbxx.setXxlylb(QbConstants.XXLYLB_STR_SJFF);
 								}
 
-								fillNPQbxxUserInfo(newQbxx, rw, user);
+								fillNPQbxxUserInfo(newQbxx, rw, user, dept);
 
 							}
 						}
@@ -249,7 +257,7 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 							newQbxx.setXxffbj(QbConstants.SF_EN_STR_FOU);
 							newQbxx.setXxlylb(QbConstants.XXLYLB_STR_SJFF);
 
-							fillNPQbxxUserInfo(newQbxx, rw, user);
+							fillNPQbxxUserInfo(newQbxx, rw, user, dept);
 
 						}
 						rw.setRwzt(QbConstants.RWZT_STR_YQS);
@@ -270,14 +278,23 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 		return Result.ok("任务签收成功!签收[" + ic + "]条指令");
 	}
 
-	private void fillNPQbxxUserInfo(QbZdasjqbxx newQbxx, QbRwlz rw, LoginUser user) {
+	private SysDepart findDepart(String orgCode) {
+		QueryWrapper<SysDepart> queryWrapper = new QueryWrapper<SysDepart>();
+		queryWrapper.eq("org_code", orgCode);
+		queryWrapper.last("LIMIT 1");
+
+		SysDepart dept = sysDepartService.getOne(queryWrapper);
+		return dept;
+	}
+
+	private void fillNPQbxxUserInfo(QbZdasjqbxx newQbxx, QbRwlz rw, LoginUser user, SysDepart dept) {
 
 		newQbxx.setId(null);
 		newQbxx.setZhxgsj(new Date());
 
 		newQbxx.setLybh(rw.getYbh());
 		newQbxx.setJsrid(user.getId());
-		newQbxx.setJsbmid(user.getDepartIds());
+		newQbxx.setJsbmid(dept == null ? null : dept.getId());
 		newQbxx.setRwlzbh(rw.getId());
 
 	}

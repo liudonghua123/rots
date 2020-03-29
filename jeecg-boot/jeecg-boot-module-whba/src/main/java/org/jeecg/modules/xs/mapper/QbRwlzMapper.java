@@ -19,7 +19,7 @@ public interface QbRwlzMapper extends BaseMapper<QbRwlz> {
    * 
    * @return
    */
-  @Select("select * from qb_rwlz where where mbbmbh = #{id} and rwzt=#{rwzt}")
+  @Select("select * from qb_rwlz where mbbmbh = #{id} and rwzt=#{rwzt}")
   public List<QbRwlz> queryByMbbmRwzt(@Param("id") String id, @Param("rwzt") String rwzt);
 
   public List<QbRwlz> queryByIds(@Param("ids") List<String> ids);

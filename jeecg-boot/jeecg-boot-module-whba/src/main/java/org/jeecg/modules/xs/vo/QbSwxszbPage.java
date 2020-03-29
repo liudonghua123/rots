@@ -106,6 +106,10 @@ public class QbSwxszbPage {
     @DateTimeFormat(pattern="yyyy-MM-dd")
 	@ApiModelProperty(value = "更新日期")
 	private java.util.Date updateTime;
+	/**任务id*/
+	@Excel(name = "任务id", width = 36)
+	@ApiModelProperty(value = "任务id")
+	private java.lang.String rwid;
 	
 	@ExcelCollection(name="线索附件")
 	@ApiModelProperty(value = "线索附件")

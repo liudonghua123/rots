@@ -109,4 +109,8 @@ public class QbSwxszb implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
+	/**任务id*/
+	@Excel(name = "任务id", width = 36)
+    @ApiModelProperty(value = "任务id")
+    private java.lang.String rwid;
 }

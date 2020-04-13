@@ -81,6 +81,29 @@ public class QbSwxszbController {
 	}
 	
 	/**
+	 * 根据rwid分页列表查询
+	 *
+	 * @param qbSwxszb
+	 * @param pageNo
+	 * @param pageSize
+	 * @param req
+	 * @return
+	 */
+	@AutoLog(value = "线索-根据rwid分页列表查询")
+	@ApiOperation(value = "线索-根据rwid分页列表查询", notes = "线索-根据rwid分页列表查询")
+	@GetMapping(value = "/listByRwid")
+	public Result<?> queryPageListByRwid(@RequestParam(name = "rwid") String rwid,
+			@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+			@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+			HttpServletRequest req) {
+		QueryWrapper<QbSwxszb> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("rwid", rwid);
+		Page<QbSwxszb> page = new Page<QbSwxszb>(pageNo, pageSize);
+		IPage<QbSwxszb> pageList = qbSwxszbService.page(page, queryWrapper);
+		return Result.ok(pageList);
+	}
+	
+	/**
 	 *   添加
 	 *
 	 * @param qbSwxszbPage

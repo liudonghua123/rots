@@ -113,4 +113,8 @@ public class QbSwxszb implements Serializable {
 	@Excel(name = "任务id", width = 36)
     @ApiModelProperty(value = "任务id")
     private java.lang.String rwid;
+	/**封面媒体路劲*/
+	@Excel(name = "封面媒体路劲", width = 255)
+    @ApiModelProperty(value = "封面媒体路劲")
+    private java.lang.String fmmtlj;
 }

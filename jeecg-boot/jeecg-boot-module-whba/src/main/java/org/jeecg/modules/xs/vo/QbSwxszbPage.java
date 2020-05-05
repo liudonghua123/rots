@@ -110,6 +110,10 @@ public class QbSwxszbPage {
 	@Excel(name = "任务id", width = 36)
 	@ApiModelProperty(value = "任务id")
 	private java.lang.String rwid;
+	/**封面媒体路劲*/
+	@Excel(name = "封面媒体路劲", width = 255)
+	@ApiModelProperty(value = "封面媒体路劲")
+	private java.lang.String fmmtlj;
 	
 	@ExcelCollection(name="线索附件")
 	@ApiModelProperty(value = "线索附件")

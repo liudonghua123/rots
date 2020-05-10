@@ -221,6 +221,11 @@
             dataIndex: 'xslx'
           },
           {
+            title:'附加信息',
+            align:"center",
+            dataIndex: 'fjxx'
+          },
+          {
             title:'后台计算结果：危险等级',
             align:"center",
             dataIndex: 'wxdj'

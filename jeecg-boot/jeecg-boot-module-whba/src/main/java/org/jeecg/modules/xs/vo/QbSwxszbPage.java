@@ -119,6 +119,10 @@ public class QbSwxszbPage {
 	@ApiModelProperty(value = "附加信息")
 	private java.lang.String fjxx;
 
+	@Excel(name = "手机号", width = 50)
+	@ApiModelProperty(value = "手机号")
+	private java.lang.String sjh;
+
 	@ExcelCollection(name = "线索附件")
 	@ApiModelProperty(value = "线索附件")
 	private List<QbSwxszbfj> qbSwxszbfjList;

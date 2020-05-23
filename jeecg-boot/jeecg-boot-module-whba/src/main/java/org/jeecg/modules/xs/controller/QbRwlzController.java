@@ -267,7 +267,7 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 				rw.setJssj(tsp);
 				if (newQbxx != null) {
 					qbZdasjqbxxService.save(newQbxx);
-					rw.setMbbh(newQbxx.getId());
+					rw.setMbbh(newQbxx.getZdasjqbxxbh());
 				}
 				qbZdasjqbxxService.save(qbxx);
 				qbRwlzService.save(rw);
@@ -289,13 +289,13 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 
 	private void fillNPQbxxUserInfo(QbZdasjqbxx newQbxx, QbRwlz rw, LoginUser user, SysDepart dept) {
 
-		newQbxx.setId(null);
+		newQbxx.setZdasjqbxxbh(null);
 		newQbxx.setZhxgsj(new Date());
 
 		newQbxx.setLybh(rw.getYbh());
 		newQbxx.setJsrid(user.getId());
 		newQbxx.setJsbmid(dept == null ? null : dept.getId());
-		newQbxx.setRwlzbh(rw.getId());
+		newQbxx.setRwlzbh(rw.getRwlzbh());
 
 	}
 

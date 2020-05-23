@@ -22,14 +22,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 public class JeecgApplication {
 
-  public static void main(String[] args) throws UnknownHostException {
+  public static void main(final String[] args) throws UnknownHostException {
     // System.setProperty("spring.devtools.restart.enabled", "true");
 
-    ConfigurableApplicationContext application = SpringApplication.run(JeecgApplication.class, args);
-    Environment env = application.getEnvironment();
-    String ip = InetAddress.getLocalHost().getHostAddress();
-    String port = env.getProperty("server.port");
-    String path = env.getProperty("server.servlet.context-path");
+    final ConfigurableApplicationContext application = SpringApplication.run(JeecgApplication.class, args);
+    final Environment env = application.getEnvironment();
+    final String ip = InetAddress.getLocalHost().getHostAddress();
+    final String port = env.getProperty("server.port");
+    final String path = env.getProperty("server.servlet.context-path");
     log.info("\n----------------------------------------------------------\n\t"
         + "Application Jeecg-Boot is running! Access URLs:\n\t" + "Local: \t\thttp://localhost:" + port + path + "/\n\t"
         + "External: \thttp://" + ip + ":" + port + path + "/\n\t" + "swagger-ui: \thttp://" + ip + ":" + port + path

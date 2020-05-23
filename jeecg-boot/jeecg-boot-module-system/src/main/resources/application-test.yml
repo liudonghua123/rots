@@ -94,12 +94,12 @@ spring:
         filters: stat,wall,slf4j
         # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
         connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
-      datasource: 
-          master: 
-            url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false
-            username: root
-            password: root
-            driver-class-name: com.mysql.jdbc.Driver
+      datasource:
+        master:
+          url: jdbc:oracle:thin:@127.0.0.1:1521:ORCL
+          username: C##SWXS
+          password: swxswh
+          driver-class-name: oracle.jdbc.driver.OracleDriver
           # 多数据源配置   
           #multi-datasource1: 
             #url: jdbc:mysql://localhost:3306/jeecg-boot2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true

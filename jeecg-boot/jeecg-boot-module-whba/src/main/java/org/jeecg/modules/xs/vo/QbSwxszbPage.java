@@ -35,7 +35,7 @@ public class QbSwxszbPage {
 	@ApiModelProperty(value = "线索详情")
 	private java.lang.String xsxq;
 	/** 地址编号 */
-	@Excel(name = "地址编号", width = 15)
+	@Excel(name = "地址编号", width = 36)
 	@ApiModelProperty(value = "地址编号")
 	private java.lang.String xsddbh;
 	/** 地址名称 */
@@ -55,11 +55,11 @@ public class QbSwxszbPage {
 	@ApiModelProperty(value = "上传时间")
 	private java.util.Date scsj;
 	/** 采集人编号 */
-	@Excel(name = "采集人编号", width = 15)
+	@Excel(name = "采集人编号", width = 36)
 	@ApiModelProperty(value = "采集人编号")
 	private java.lang.String cjrbh;
 	/** 采集部门编号 */
-	@Excel(name = "采集部门编号", width = 15)
+	@Excel(name = "采集部门编号", width = 36)
 	@ApiModelProperty(value = "采集部门编号")
 	private java.lang.String cjbmbh;
 	/** 线索类型 */
@@ -79,11 +79,11 @@ public class QbSwxszbPage {
 	@ApiModelProperty(value = "后台比对标记：Y是，N否")
 	private java.lang.String htbdbj;
 	/** 涉稳事件编号 */
-	@Excel(name = "涉稳事件编号", width = 15)
+	@Excel(name = "涉稳事件编号", width = 36)
 	@ApiModelProperty(value = "涉稳事件编号")
 	private java.lang.String swsjbh;
 	/** 信息编号 */
-	@Excel(name = "信息编号", width = 15)
+	@Excel(name = "信息编号", width = 36)
 	@ApiModelProperty(value = "信息编号")
 	private java.lang.String zdasjqbxxbh;
 	/** 创建人登录名称 */

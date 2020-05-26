@@ -24,9 +24,14 @@ import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.xs.entity.QbSwxszbfj;
 import org.jeecg.modules.xs.entity.QbSwxszb;
+import org.jeecg.modules.xs.entity.QbEcfzglyc;
+import org.jeecg.modules.xs.entity.QbShejunglyc;
+
 import org.jeecg.modules.xs.vo.QbSwxszbPage;
 import org.jeecg.modules.xs.service.IQbSwxszbService;
 import org.jeecg.modules.xs.service.IQbSwxszbfjService;
+import org.jeecg.modules.xs.service.IQbEcfzglycService;
+import org.jeecg.modules.xs.service.IQbShejunglycService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +64,12 @@ public class QbSwxszbController {
 	private IQbSwxszbService qbSwxszbService;
 	@Autowired
 	private IQbSwxszbfjService qbSwxszbfjService;
+
+	@Autowired
+	private IQbEcfzglycService qbEcfzglycService;
+
+	@Autowired
+	private IQbShejunglycService qbShejunglycService;
 
 	/**
 	 * 分页列表查询
@@ -115,8 +126,54 @@ public class QbSwxszbController {
 		QbSwxszb qbSwxszb = new QbSwxszb();
 		BeanUtils.copyProperties(qbSwxszbPage, qbSwxszb);
 		fillQbSwxszbFmmtlj(qbSwxszb, qbSwxszbPage);
+		fillQbSwxszbGlyc(qbSwxszb, qbSwxszbPage);
+		if (qbSwxszb.getCjsj() == null) {
+			qbSwxszb.setCjsj(qbSwxszb.getCreateTime());
+		}
 		qbSwxszbService.saveMain(qbSwxszb, qbSwxszbPage.getQbSwxszbfjList());
 		return Result.ok("添加成功！");
+	}
+
+	private void fillQbSwxszbGlyc(QbSwxszb qbSwxszb, QbSwxszbPage qbSwxszbPage) {
+		if (qbSwxszb != null && "ry".equals(qbSwxszb.getXslx()) && !StringUtil.isNullOrEmpty(qbSwxszb.getFjxx())) {
+
+			StringBuilder sb = new StringBuilder();
+			List<QbEcfzglyc> fegs = qbEcfzglycService.queryByZjhm(qbSwxszb.getFjxx());
+			QbEcfzglyc feg = fegs != null && fegs.size() > 0 ? fegs.get(0) : null;
+
+			if (feg != null && feg.getEcfzycz() != null) {
+				sb.append("\n").append("二次犯罪概率：").append(feg.getEcfzycz());
+
+			} else {
+				sb.append("\n").append("二次犯罪概率未知");
+			}
+
+			List<QbShejunglyc> sjgs = qbShejunglycService.queryByCity(qbSwxszb.getFjxx());
+			QbShejunglyc sjg = sjgs != null && sjgs.size() > 0 ? sjgs.get(0) : null;
+			if (sjg != null && sjg.getScore() != null) {
+				sb.append("\n").append("涉军指数：").append(sjg.getScore());
+			} else {
+				sb.append("\n").append("涉军指数未知");
+			}
+			String wxdj = "";
+			if ((feg != null && feg.getEcfzycz() != null && feg.getEcfzycz() > 0.5d)
+					|| (sjg != null && sjg.getScore() != null && sjg.getScore() > 0.7d)) {
+				wxdj = "wxdj_g";// 危险等级:高
+			} else if (feg != null && feg.getEcfzycz() != null && feg.getEcfzycz() > 0.3d
+					|| (sjg != null && sjg.getScore() != null && sjg.getScore() > 0.5d)) {
+				wxdj = "wxdj_z";// 危险等级:中
+			} else if ((feg != null && feg.getEcfzycz() != null) || (sjg != null && sjg.getScore() != null)) {
+				wxdj = "wxdj_d";// 危险等级:低
+			}
+			if (!StringUtil.isNullOrEmpty(wxdj)) {
+				qbSwxszb.setHtbdbj("Y");
+			} else {
+				qbSwxszb.setHtbdbj("N");
+			}
+			qbSwxszb.setWxdj(wxdj);
+			qbSwxszb.setTsxq(sb.toString());
+
+		}
 	}
 
 	private void fillQbSwxszbFmmtlj(QbSwxszb qbSwxszb, QbSwxszbPage qbSwxszbPage) {

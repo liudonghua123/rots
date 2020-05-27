@@ -69,8 +69,8 @@ public class QbRwlz implements Serializable {
     @ApiModelProperty(value = "接收人编号")
     private java.lang.String jsrbh;
     /** 接收时间 */
-    @Excel(name = "接收时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "接收时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "接收时间")
     private java.util.Date jssj;
@@ -91,14 +91,14 @@ public class QbRwlz implements Serializable {
     @ApiModelProperty(value = "目标部门编号")
     private java.lang.String mbbmbh;
     /** 办结时间 */
-    @Excel(name = "办结时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "办结时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "办结时间")
     private java.util.Date bjsj;
     /** 发起时间 */
-    @Excel(name = "发起时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "发起时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "发起时间")
     private java.util.Date fqsj;
@@ -119,9 +119,9 @@ public class QbRwlz implements Serializable {
     @ApiModelProperty(value = "流转方式（信息流转：XXLZ，人员采集指令：RYCJZL，线索采集指令:XSCJZL）")
     private java.lang.String lzfs;
     /** 反馈截止时间 */
-    @Excel(name = "反馈截止时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "反馈截止时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "反馈截止时间")
     private java.util.Date fkjzsj;
     /** 反馈说明 */
@@ -129,8 +129,8 @@ public class QbRwlz implements Serializable {
     @ApiModelProperty(value = "反馈说明")
     private java.lang.String fksm;
     /** 实际反馈时间 */
-    @Excel(name = "实际反馈时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "实际反馈时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "实际反馈时间")
     private java.util.Date sjfksj;

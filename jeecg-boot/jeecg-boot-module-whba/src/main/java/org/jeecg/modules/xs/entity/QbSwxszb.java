@@ -46,14 +46,14 @@ public class QbSwxszb implements Serializable {
     @ApiModelProperty(value = "地址名称")
     private java.lang.String xsddmc;
     /** 采集时间 */
-    @Excel(name = "采集时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "采集时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "采集时间")
     private java.util.Date cjsj;
     /** 上传时间 */
-    @Excel(name = "上传时间", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "上传时间", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "上传时间")
     private java.util.Date scsj;
@@ -94,8 +94,8 @@ public class QbSwxszb implements Serializable {
     @ApiModelProperty(value = "创建人登录名称")
     private java.lang.String createBy;
     /** 创建日期 */
-    @Excel(name = "创建日期", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "创建日期", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "创建日期")
     private java.util.Date createTime;
@@ -104,8 +104,8 @@ public class QbSwxszb implements Serializable {
     @ApiModelProperty(value = "更新人登录名称")
     private java.lang.String updateBy;
     /** 更新日期 */
-    @Excel(name = "更新日期", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @Excel(name = "更新日期", width = 15, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -128,7 +129,8 @@ public class QbSwxszbController {
 		fillQbSwxszbFmmtlj(qbSwxszb, qbSwxszbPage);
 		fillQbSwxszbGlyc(qbSwxszb, qbSwxszbPage);
 		if (qbSwxszb.getCjsj() == null) {
-			qbSwxszb.setCjsj(qbSwxszb.getCreateTime());
+			qbSwxszb.setCjsj(qbSwxszb.getCreateTime() != null ? qbSwxszb.getCreateTime() : new Date());
+			qbSwxszb.setScsj(new Date());
 		}
 		qbSwxszbService.saveMain(qbSwxszb, qbSwxszbPage.getQbSwxszbfjList());
 		return Result.ok("添加成功！");

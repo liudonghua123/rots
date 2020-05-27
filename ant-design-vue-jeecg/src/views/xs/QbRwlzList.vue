@@ -270,6 +270,10 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
+      isorter: {
+        column: 'fqsj',
+        order: 'desc'
+      },
       url: {
         list: '/xs/qbRwlz/list',
         delete: '/xs/qbRwlz/delete',

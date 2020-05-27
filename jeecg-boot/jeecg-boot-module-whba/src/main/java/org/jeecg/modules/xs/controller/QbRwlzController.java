@@ -74,7 +74,17 @@ public class QbRwlzController extends JeecgController<QbRwlz, IQbRwlzService> {
 	@GetMapping(value = "/list")
 	public Result<?> queryPageList(QbRwlz qbRwlz, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
-		QueryWrapper<QbRwlz> queryWrapper = QueryGenerator.initQueryWrapper(qbRwlz, req.getParameterMap());
+		Map<String, String[]> qms = req.getParameterMap();
+		// if (!qms.containsKey("lzfs")) {
+		// qms.put("lzfs", new String[] { "XSSJZL" });
+		// }
+		// if (!qms.containsKey("column")) {
+		// qms.put("column", new String[] { "fqsj" });
+		// }
+		// if (!qms.containsKey("order")) {
+		// qms.put("order", new String[] { "desc" });
+		// }
+		QueryWrapper<QbRwlz> queryWrapper = QueryGenerator.initQueryWrapper(qbRwlz, qms);
 		Page<QbRwlz> page = new Page<QbRwlz>(pageNo, pageSize);
 		IPage<QbRwlz> pageList = qbRwlzService.page(page, queryWrapper);
 		return Result.ok(pageList);

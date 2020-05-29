@@ -27,11 +27,13 @@ import org.jeecg.modules.xs.entity.QbSwxszbfj;
 import org.jeecg.modules.xs.entity.QbSwxszb;
 import org.jeecg.modules.xs.entity.QbEcfzglyc;
 import org.jeecg.modules.xs.entity.QbShejunglyc;
+import org.jeecg.modules.xs.entity.QbRysstj;
 
 import org.jeecg.modules.xs.vo.QbSwxszbPage;
 import org.jeecg.modules.xs.service.IQbSwxszbService;
 import org.jeecg.modules.xs.service.IQbSwxszbfjService;
 import org.jeecg.modules.xs.service.IQbEcfzglycService;
+import org.jeecg.modules.xs.service.IQbRysstjService;
 import org.jeecg.modules.xs.service.IQbShejunglycService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,9 @@ public class QbSwxszbController {
 
 	@Autowired
 	private IQbShejunglycService qbShejunglycService;
+
+	@Autowired
+	private IQbRysstjService qbRysstjService;
 
 	/**
 	 * 分页列表查询
@@ -157,12 +162,27 @@ public class QbSwxszbController {
 			} else {
 				sb.append("\n").append("涉军指数未知");
 			}
+
+			QbRysstj rysstjs = qbRysstjService.queryOneByZjhm(qbSwxszb.getFjxx());
+
+			Integer sscsynl = 0, sscssnl = 0, sscs = 0;
+			if (rysstjs != null) {
+				sscsynl = rysstjs.getSscsynl() == null ? 0 : rysstjs.getSscsynl();
+				sscssnl = rysstjs.getSscssnl() == null ? 0 : rysstjs.getSscssnl();
+				sscs = rysstjs.getSscs() == null ? 0 : rysstjs.getSscs();
+				sscssnl = sscssnl < sscsynl ? sscsynl : sscssnl;
+				sscs = sscs < sscssnl ? sscssnl : sscs;
+				sb.append("\n").append("一年来涉事次数：").append(sscsynl);
+				sb.append("\n").append("三年来涉事次数：").append(sscssnl);
+				sb.append("\n").append("有统计的涉事次数：").append(sscs);
+			}
+
 			String wxdj = "";
 			if ((feg != null && feg.getEcfzycz() != null && feg.getEcfzycz() > 0.5d)
-					|| (sjg != null && sjg.getScore() != null && sjg.getScore() > 0.7d)) {
+					|| (sjg != null && sjg.getScore() != null && sjg.getScore() > 0.7d) || sscs > 5) {
 				wxdj = "wxdj_g";// 危险等级:高
 			} else if (feg != null && feg.getEcfzycz() != null && feg.getEcfzycz() > 0.3d
-					|| (sjg != null && sjg.getScore() != null && sjg.getScore() > 0.5d)) {
+					|| (sjg != null && sjg.getScore() != null && sjg.getScore() > 0.5d) || sscs > 3) {
 				wxdj = "wxdj_z";// 危险等级:中
 			} else if ((feg != null && feg.getEcfzycz() != null) || (sjg != null && sjg.getScore() != null)) {
 				wxdj = "wxdj_d";// 危险等级:低
